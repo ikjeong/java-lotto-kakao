@@ -7,23 +7,27 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class LottoNumberTest {
-	
+
 	@Test
-	@DisplayName("LottoNumber 일치 여부 테스트")
-	void compareLottoNumber() {
+	@DisplayName("LottoNumber 일치 테스트")
+	void compareSameLottoNumber() {
 		LottoNumber target = new LottoNumber(1);
 
-		// Same
 		LottoNumber sameTestTarget = new LottoNumber(1);
 		boolean isSame = target.isEqual(sameTestTarget);
 		assertThat(isSame).isTrue();
+	}
 
-		// Different
+	@Test
+	@DisplayName("LottoNumber 불일치 테스트")
+	void compareDifferentLottoNumber() {
+		LottoNumber target = new LottoNumber(1);
+
 		LottoNumber differentTestTarget = new LottoNumber(2);
-		isSame = target.isEqual(differentTestTarget);
+		boolean isSame = target.isEqual(differentTestTarget);
 		assertThat(isSame).isFalse();
 	}
-	
+
 	@Test
 	@DisplayName("LottoNumber 범위 검증 테스트(1~45)")
 	void validateNumberRange() {
