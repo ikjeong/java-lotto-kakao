@@ -3,9 +3,7 @@
 ## 테스트 설계
 1. LottoNumber (번호 한자리)
   - [x] 번호 비교(매칭)
-  - [ ] 예외 케이스
-    - [ ] 번호 범위(1~45) 검증
-    - [ ] 숫자가 아닌 문자
+  - [x] 번호 범위(1~45) 검증
 2. LottoNumbers
   - [ ] LottoNumbers와 LottoNumber 비교
   - [ ] LottoNumbers와 LottoNumbers 비교
