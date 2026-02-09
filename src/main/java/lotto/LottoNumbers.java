@@ -17,5 +17,11 @@ public class LottoNumbers {
 				.anyMatch(number -> number.isEqual(compareNumber));
 	}
 
-
+	public Integer countMatchNumber(LottoNumbers compareLottoNumbers) {
+		return Math.toIntExact(
+				numbers.stream()
+						.filter(compareLottoNumbers::isMatch)
+						.count()
+		);
+	}
 }

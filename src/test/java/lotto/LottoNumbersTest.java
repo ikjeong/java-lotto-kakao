@@ -41,4 +41,23 @@ public class LottoNumbersTest {
 		Boolean isMatch = lottoNumbers.isMatch(nonMatchNumber);
 		assertThat(isMatch).isFalse();
 	}
+
+	@Test
+	@DisplayName("LottoNumbers 간 일치하는 숫자 개수 테스트")
+	void countMatchLottoNumber() {
+		List<LottoNumber> compareNumbers;
+		compareNumbers = List.of(
+				new LottoNumber(4),
+				new LottoNumber(5),
+				new LottoNumber(6),
+				new LottoNumber(7),
+				new LottoNumber(8),
+				new LottoNumber(9)
+		);
+		LottoNumbers lottoNumbers = new LottoNumbers(numbers);
+		LottoNumbers compareLottoNumbers = new LottoNumbers(compareNumbers);
+
+		Integer count = lottoNumbers.countMatchNumber(compareLottoNumbers);
+		assertThat(count).isEqualTo(3);
+	}
 }
