@@ -5,7 +5,7 @@
   - [x] 번호 비교(매칭)
   - [x] 번호 범위(1~45) 검증
 2. LottoNumbers
-  - [ ] LottoNumbers와 LottoNumber 비교
+  - [x] LottoNumbers와 LottoNumber 비교
   - [ ] LottoNumbers와 LottoNumbers 비교
 3. LottoNumbers 생성
   - [ ] 중복되지 않는 번호 생성
