@@ -12,8 +12,10 @@ public class LottoNumbers {
 				.toList();
 	}
 
-	public boolean isMatch(LottoNumber compareNumber) {
+	public Boolean isMatch(LottoNumber compareNumber) {
 		return numbers.stream()
 				.anyMatch(number -> number.isEqual(compareNumber));
 	}
+
+
 }

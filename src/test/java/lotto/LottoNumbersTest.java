@@ -29,7 +29,7 @@ public class LottoNumbersTest {
 	void matchLottoNumbers() {
 		LottoNumbers lottoNumbers = new LottoNumbers(numbers);
 		LottoNumber matchNumber = new LottoNumber(1);
-		boolean isMatch = lottoNumbers.isMatch(matchNumber);
+		Boolean isMatch = lottoNumbers.isMatch(matchNumber);
 		assertThat(isMatch).isTrue();
 	}
 
@@ -38,7 +38,7 @@ public class LottoNumbersTest {
 	void nonMatchLottoNumbers() {
 		LottoNumbers lottoNumbers = new LottoNumbers(numbers);
 		LottoNumber nonMatchNumber =  new LottoNumber(7);
-		boolean isMatch = lottoNumbers.isMatch(nonMatchNumber);
+		Boolean isMatch = lottoNumbers.isMatch(nonMatchNumber);
 		assertThat(isMatch).isFalse();
 	}
 }

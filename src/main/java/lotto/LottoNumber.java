@@ -15,7 +15,7 @@ public class LottoNumber {
 		return number;
 	}
 
-	public boolean isEqual(LottoNumber lottoNumber) {
+	public Boolean isEqual(LottoNumber lottoNumber) {
 		return number.equals(lottoNumber.getNumber());
 	}
 }
