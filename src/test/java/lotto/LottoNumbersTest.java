@@ -15,12 +15,12 @@ public class LottoNumbersTest {
 
 	@BeforeEach
 	void setup() {
-		numbers = generateLottoNumbers(LottoConfig.LOTTO_LENGTH);
+		numbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH);
 	}
 
-	List<LottoNumber> generateLottoNumbers(Integer lottoLength) {
+	List<LottoNumber> generateLottoNumbers(Integer startNumber, Integer lottoLength) {
 		List<LottoNumber> lottoNumbers = new ArrayList<>();
-		for (Integer number =1; number <= lottoLength; number++) {
+		for (Integer number = startNumber; number < startNumber+lottoLength; number++) {
 			lottoNumbers.add(new LottoNumber(number));
 		}
 		return lottoNumbers;
@@ -49,15 +49,7 @@ public class LottoNumbersTest {
 	@Test
 	@DisplayName("LottoNumbers 간 일치하는 숫자 개수 테스트")
 	void countMatchLottoNumber() {
-		List<LottoNumber> targetNumbers;
-		targetNumbers = List.of(
-				new LottoNumber(4),
-				new LottoNumber(5),
-				new LottoNumber(6),
-				new LottoNumber(7),
-				new LottoNumber(8),
-				new LottoNumber(9)
-		);
+		List<LottoNumber> targetNumbers = generateLottoNumbers(4, LottoConfig.LOTTO_LENGTH);
 		LottoNumbers lottoNumbers = new LottoNumbers(numbers);
 		LottoNumbers targetLottoNumbers = new LottoNumbers(targetNumbers);
 
@@ -76,7 +68,7 @@ public class LottoNumbersTest {
 	@Test
 	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(짧은 길이)")
 	void validateShortLottoNumbersLength(){
-		List<LottoNumber> shortNumbers = generateLottoNumbers(LottoConfig.LOTTO_LENGTH-1);
+		List<LottoNumber> shortNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH-1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoNumbers shortLottoNumbers = new LottoNumbers(shortNumbers);
@@ -86,7 +78,7 @@ public class LottoNumbersTest {
 	@Test
 	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(긴 길이)")
 	void validateLongLottoNumbersLength(){
-		List<LottoNumber> longNumbers = generateLottoNumbers(LottoConfig.LOTTO_LENGTH+1);
+		List<LottoNumber> longNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH+1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoNumbers longtLottoNumbers = new LottoNumbers(longNumbers);
