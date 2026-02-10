@@ -33,6 +33,10 @@ public class OutputView {
 				+ "입니다.(" + getProfitLossMessage(returnRate) + ")");
 	}
 
+	public void printError(String errorMessage) {
+		System.out.println("[ERROR] " + errorMessage);
+	}
+
 	private String formatReturnRate(Double returnRate) {
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		decimalFormat.setRoundingMode(RoundingMode.DOWN);
