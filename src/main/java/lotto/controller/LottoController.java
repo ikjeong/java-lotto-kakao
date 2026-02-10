@@ -3,10 +3,7 @@ package lotto.controller;
 import java.util.List;
 
 import lotto.LottoConfig;
-import lotto.model.LottoNumber;
-import lotto.model.LottoNumbers;
-import lotto.model.LottoRandomGenerator;
-import lotto.model.WinningLottoNumbers;
+import lotto.model.*;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
@@ -37,5 +34,10 @@ public class LottoController {
 		LottoNumber bonusNumber = new LottoNumber(bonusIntegerNumber);
 
 		WinningLottoNumbers winningLottoNumbers = new WinningLottoNumbers(winningNormalNumbers, bonusNumber);
+
+		List<Rank> ranks = lottoTickets.stream().map(winningLottoNumbers::match).toList();
+		LottoResult lottoResult = new LottoResult(ranks);
+
+		outputView.printLottoResult(lottoResult);
 	}
 }
