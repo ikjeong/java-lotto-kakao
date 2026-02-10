@@ -1,5 +1,6 @@
 package lotto;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class LottoNumbers {
@@ -12,6 +13,7 @@ public class LottoNumbers {
 
 		this.numbers = numbers.stream()
 				.map(number -> new LottoNumber(number.getNumber()))
+				.sorted(Comparator.comparing(LottoNumber::getNumber))
 				.toList();
 	}
 
