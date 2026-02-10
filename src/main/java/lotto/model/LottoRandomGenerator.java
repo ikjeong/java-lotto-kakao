@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import lotto.LottoConfig;
 
@@ -28,5 +30,11 @@ public class LottoRandomGenerator {
 		Collections.shuffle(allNumbers, random);
 		List<LottoNumber> numbers = allNumbers.subList(0, LottoConfig.LOTTO_LENGTH);
 		return new LottoNumbers(numbers);
+	}
+
+	public List<LottoNumbers> generate(Integer count) {
+		return Stream.generate(this::generate)
+				.limit(count)
+				.collect(Collectors.toList());
 	}
 }

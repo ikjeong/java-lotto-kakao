@@ -2,6 +2,7 @@ package lotto.model;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lotto.LottoConfig;
 
@@ -47,5 +48,13 @@ public class LottoNumbers {
 		if (!distinctCount.equals(LottoConfig.LOTTO_LENGTH)) {
 			throw new IllegalArgumentException("로또 번호는 중복되지 않아야 합니다.");
 		}
+	}
+
+	@Override
+	public String toString() {
+		return numbers.stream()
+				.map(LottoNumber::getNumber)
+				.map(String::valueOf)
+				.collect(Collectors.joining(", ", "[", "]"));
 	}
 }
