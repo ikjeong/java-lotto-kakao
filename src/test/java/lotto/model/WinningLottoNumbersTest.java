@@ -31,14 +31,13 @@ public class WinningLottoNumbersTest {
 
 	@ParameterizedTest(name = "[{index}] 일반 {0}개, 보너스 {1}")
 	@MethodSource("allCases")
-	@DisplayName("일반,보너스 당첨 개수 반환 테스트")
-	void countMatchedNumber(Integer match, Boolean bonus){
+	@DisplayName("당첨 등수 반환 테스트")
+	void countMatchedNumber(Integer match, Boolean bonus, Rank targetRank){
 		WinningLottoNumbers winningLottoNumbers = new WinningLottoNumbers(winningNormalNumbers, winningBonusNumber);
 		LottoNumbers myLottoNumbers = makeCustomLottoNumbers(match, bonus);
 
-		MatchingCountInfo matchingResult = winningLottoNumbers.countMatchingNumber(myLottoNumbers);
-		assertThat(matchingResult.normalCount()).isEqualTo(match);
-		assertThat(matchingResult.hasBonus()).isEqualTo(bonus);
+		Rank rank = winningLottoNumbers.match(myLottoNumbers);
+		assertThat(rank).isEqualTo(targetRank);
 	}
 
 	static Stream<Arguments> allCases() {
@@ -46,7 +45,7 @@ public class WinningLottoNumbersTest {
 				.boxed()
 				.flatMap(match -> Stream.of(false, true)
 						.filter(bonus -> !(match.equals(LottoConfig.LOTTO_LENGTH) && bonus)) // 불가능 케이스
-						.map(bonus -> Arguments.of(match, bonus)));
+						.map(bonus -> Arguments.of(match, bonus, Rank.from(match, bonus))));
 	}
 
 	LottoNumbers makeCustomLottoNumbers(int matchCount, boolean bonusMatch) {

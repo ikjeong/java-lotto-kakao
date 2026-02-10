@@ -14,10 +14,10 @@ public class WinningLottoNumbers {
 		this.bonusNumber = bonusNumber;
 	}
 
-	public MatchingCountInfo countMatchingNumber(LottoNumbers myLottoNumbers) {
+	public Rank match(LottoNumbers myLottoNumbers) {
 		Integer normalCount = lottoNumbers.countMatchNumber(myLottoNumbers);
 		Boolean hasBonus = myLottoNumbers.isMatch(bonusNumber);
 
-		return new MatchingCountInfo(normalCount,hasBonus);
+		return Rank.from(normalCount, hasBonus);
 	}
 }
