@@ -1,6 +1,6 @@
 package lotto;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
 
 public class WinningLottoNumbersTest {
 
@@ -47,7 +47,7 @@ public class WinningLottoNumbersTest {
 						.map(bonus -> Arguments.of(match, bonus)));
 	}
 
-	private LottoNumbers makeCustomLottoNumbers(int matchCount, boolean bonusMatch) {
+	LottoNumbers makeCustomLottoNumbers(int matchCount, boolean bonusMatch) {
 		List<Integer> missPool = IntStream.rangeClosed(winningBonusNumber.getNumber()+1, 45).boxed().toList();
 		List<Integer> picked = new ArrayList<>(winningIntegerNormalNumbers.subList(0, matchCount));
 		if (bonusMatch) {
@@ -60,4 +60,22 @@ public class WinningLottoNumbersTest {
 		return new LottoNumbers(picked.stream().map(LottoNumber::new).toList());
 	}
 
+	@Test
+	@DisplayName("일반 번호와 보너스 번호 중복시 예외")
+	void validateBonusInNormalNumbers() {
+		LottoNumber bonus = new LottoNumber(1);
+		assertThatIllegalArgumentException().isThrownBy(() -> {
+			WinningLottoNumbers bonusInNormalNumbers =
+					new WinningLottoNumbers(winningNormalNumbers, bonus);
+		});
+	}
+
+	@Test
+	@DisplayName("일반 번호와 보너스 번호가 중복되지 않음")
+	void validateBonusNotInNormalNumbers() {
+		assertThatNoException().isThrownBy(() -> {
+			WinningLottoNumbers bonusNotInNormalNumbers =
+					new WinningLottoNumbers(winningNormalNumbers, winningBonusNumber);
+		});
+	}
 }
