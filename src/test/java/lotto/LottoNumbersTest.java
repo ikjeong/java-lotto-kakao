@@ -84,4 +84,15 @@ public class LottoNumbersTest {
 			LottoNumbers longtLottoNumbers = new LottoNumbers(longNumbers);
 		});
 	}
+
+	@Test
+	@DisplayName("LottoNumbers 중복된 숫자로 생성시 예외 발생")
+	void validateDuplicateLottoNumber() {
+		List<LottoNumber> duplicateNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH-1);
+		duplicateNumbers.add(new LottoNumber(1));
+
+		assertThatIllegalArgumentException().isThrownBy(() -> {
+			LottoNumbers duplicateLottoNumbers = new LottoNumbers(duplicateNumbers);
+		});
+	}
 }

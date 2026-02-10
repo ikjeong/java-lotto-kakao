@@ -7,9 +7,17 @@ public class LottoNumbers {
 	private final List<LottoNumber> numbers;
 
 	public LottoNumbers(List<LottoNumber> numbers) {
-		Integer distinctCount = Math.toIntExact(numbers.stream().map(LottoNumber::getNumber).count());
-		if (!distinctCount.equals(LottoConfig.LOTTO_LENGTH)) {
+		Integer numbersLength =  Math.toIntExact(numbers.size());
+		if (!numbersLength.equals(LottoConfig.LOTTO_LENGTH)) {
 			throw new IllegalArgumentException("로또 길이는 " + LottoConfig.LOTTO_LENGTH + " 이어야합니다");
+		}
+
+		Integer distinctCount = Math.toIntExact(numbers.stream()
+				.map(LottoNumber::getNumber)
+				.distinct()
+				.count());
+		if (!distinctCount.equals(LottoConfig.LOTTO_LENGTH)) {
+			throw new IllegalArgumentException("로또 번호는 중복되지 않아야 합니다.");
 		}
 
 		this.numbers = numbers.stream()

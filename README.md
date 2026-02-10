@@ -9,7 +9,7 @@
   - [x] LottoNumbers와 LottoNumbers 비교
 3. LottoNumbers 생성
   - [x] 로또 길이 검증
-  - [ ] 중복되지 않는 번호 검증
+  - [x] 중복되지 않는 번호 검증
   - [ ] 랜덤 번호 생성
 4. WinningLottoNumbers
   - [ ] 당첨 개수 반환(일반번호, 보너스번호)
