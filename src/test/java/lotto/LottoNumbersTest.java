@@ -1,7 +1,8 @@
 package lotto;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +15,15 @@ public class LottoNumbersTest {
 
 	@BeforeEach
 	void setup() {
-		numbers = List.of(
-				new LottoNumber(1),
-				new LottoNumber(2),
-				new LottoNumber(3),
-				new LottoNumber(4),
-				new LottoNumber(5),
-				new LottoNumber(6)
-		);
+		numbers = generateLottoNumbers(LottoConfig.LOTTO_LENGTH);
+	}
+
+	List<LottoNumber> generateLottoNumbers(Integer lottoLength) {
+		List<LottoNumber> lottoNumbers = new ArrayList<>();
+		for (Integer number =1; number <= lottoLength; number++) {
+			lottoNumbers.add(new LottoNumber(number));
+		}
+		return lottoNumbers;
 	}
 
 	@Test
@@ -61,5 +63,33 @@ public class LottoNumbersTest {
 
 		Integer count = lottoNumbers.countMatchNumber(targetLottoNumbers);
 		assertThat(count).isEqualTo(3);
+	}
+
+	@Test
+	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(정상 길이)")
+	void validateCorrectLottoNumbersLength(){
+		assertThatNoException().isThrownBy(()->{
+			LottoNumbers lottoNumbers = new LottoNumbers(numbers);
+		});
+	}
+
+	@Test
+	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(짧은 길이)")
+	void validateShortLottoNumbersLength(){
+		List<LottoNumber> shortNumbers = generateLottoNumbers(LottoConfig.LOTTO_LENGTH-1);
+
+		assertThatIllegalArgumentException().isThrownBy(() -> {
+			LottoNumbers shortLottoNumbers = new LottoNumbers(shortNumbers);
+		});
+	}
+
+	@Test
+	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(긴 길이)")
+	void validateLongLottoNumbersLength(){
+		List<LottoNumber> longNumbers = generateLottoNumbers(LottoConfig.LOTTO_LENGTH+1);
+
+		assertThatIllegalArgumentException().isThrownBy(() -> {
+			LottoNumbers longtLottoNumbers = new LottoNumbers(longNumbers);
+		});
 	}
 }
