@@ -1,4 +1,4 @@
-package lotto;
+package lotto.model;
 
 public enum Price {
 	NO_MATCH(0),

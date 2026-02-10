@@ -1,10 +1,12 @@
-package lotto;
+package lotto.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
+
+import lotto.LottoConfig;
 
 public class LottoRandomGenerator {
 

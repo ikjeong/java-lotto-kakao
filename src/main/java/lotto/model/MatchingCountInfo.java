@@ -1,4 +1,4 @@
-package lotto;
+package lotto.model;
 
 public record MatchingCountInfo(Integer normalCount, Boolean hasBonus) {
 

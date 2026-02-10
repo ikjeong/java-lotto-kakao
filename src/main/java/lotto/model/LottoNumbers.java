@@ -1,7 +1,9 @@
-package lotto;
+package lotto.model;
 
 import java.util.Comparator;
 import java.util.List;
+
+import lotto.LottoConfig;
 
 public class LottoNumbers {
 
