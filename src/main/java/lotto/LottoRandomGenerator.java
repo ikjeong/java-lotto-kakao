@@ -1,0 +1,30 @@
+package lotto;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
+
+public class LottoRandomGenerator {
+
+	private final Random random;
+
+	public LottoRandomGenerator(Random random) {
+		this.random = random;
+	}
+
+	public LottoRandomGenerator() {
+		this.random = new Random();
+	}
+
+	public LottoNumbers generate() {
+		List<LottoNumber> allNumbers = new ArrayList<>(IntStream.rangeClosed(1, 45)
+				.boxed()
+				.map(LottoNumber::new)
+				.toList());
+		Collections.shuffle(allNumbers, random);
+		List<LottoNumber> numbers = allNumbers.subList(0, LottoConfig.LOTTO_LENGTH);
+		return new LottoNumbers(numbers);
+	}
+}
