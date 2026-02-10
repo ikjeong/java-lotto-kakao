@@ -12,15 +12,15 @@ public class LottoNumbers {
 				.toList();
 	}
 
-	public Boolean isMatch(LottoNumber compareNumber) {
+	public Boolean isMatch(LottoNumber targetNumber) {
 		return numbers.stream()
-				.anyMatch(number -> number.isEqual(compareNumber));
+				.anyMatch(number -> number.isEqual(targetNumber));
 	}
 
-	public Integer countMatchNumber(LottoNumbers compareLottoNumbers) {
+	public Integer countMatchNumber(LottoNumbers targetNumbers) {
 		return Math.toIntExact(
 				numbers.stream()
-						.filter(compareLottoNumbers::isMatch)
+						.filter(targetNumbers::isMatch)
 						.count()
 		);
 	}
