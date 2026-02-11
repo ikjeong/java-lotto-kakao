@@ -2,7 +2,6 @@ package lotto.controller;
 
 import java.util.List;
 
-import lotto.LottoConfig;
 import lotto.model.*;
 import lotto.view.InputView;
 import lotto.view.OutputView;
@@ -11,12 +10,12 @@ public class LottoController {
 
 	private final InputView inputView;
 	private final OutputView outputView;
-	private final LottoTicketRandomGenerator lottoTicketRandomGenerator;
+	private final LottoMachine lottoMachine;
 
-	public LottoController(LottoTicketRandomGenerator lottoTicketRandomGenerator) {
+	public LottoController(LottoMachine lottoMachine) {
 		inputView = new InputView();
 		outputView = new OutputView();
-		this.lottoTicketRandomGenerator = lottoTicketRandomGenerator;
+		this.lottoMachine = lottoMachine;
 	}
 
 	public void run() {
@@ -28,32 +27,14 @@ public class LottoController {
 	}
 
 	private void executeLotto() {
-		Integer ticketCount = calculateTicketCount();
-		List<LottoTicket> lottoTickets = issueLottoTickets(ticketCount);
+		Integer purchasePrice = inputView.readPurchasePrice();
+		List<LottoTicket> lottoTickets = lottoMachine.generate(purchasePrice);
+		outputView.printPurchasedTicketCount(lottoTickets.size());
+		outputView.printLottoTickets(lottoTickets);
+
 		WinningLottoNumbers winningLottoNumbers = readWinningLottoNumbers();
 		LottoResult lottoResult = createLottoResult(lottoTickets, winningLottoNumbers);
 		outputView.printLottoResult(lottoResult);
-	}
-
-	private Integer calculateTicketCount() {
-		Integer purchasePrice = inputView.readPurchasePrice();
-		validatePurchasePrice(purchasePrice);
-		Integer ticketCount = purchasePrice / LottoConfig.LOTTO_TICKET_PRICE;
-		outputView.printPurchasedTicketCount(ticketCount);
-		return ticketCount;
-	}
-
-	private void validatePurchasePrice(Integer purchasePrice) {
-		if (purchasePrice >= LottoConfig.LOTTO_TICKET_PRICE) {
-			return;
-		}
-		throw new IllegalArgumentException(LottoConfig.LOTTO_TICKET_PRICE + "원 이상 입력해야 합니다.");
-	}
-
-	private List<LottoTicket> issueLottoTickets(Integer ticketCount) {
-		List<LottoTicket> lottoTickets = lottoTicketRandomGenerator.generate(ticketCount);
-		outputView.printLottoTickets(lottoTickets);
-		return lottoTickets;
 	}
 
 	private WinningLottoNumbers readWinningLottoNumbers() {

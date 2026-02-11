@@ -7,8 +7,6 @@ import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import lotto.LottoConfig;
-
 public class LottoTicketRandomGeneratorTest {
 
 	@Test

@@ -14,7 +14,7 @@ public class LottoResult {
 
 	public Double calculateReturnRate() {
 		Integer sumPrize = ranks.stream().map(Rank::prize).reduce(0, Integer::sum);
-		Integer pay = LottoConfig.LOTTO_TICKET_PRICE * ranks.size();
+		Integer pay = LottoMachine.LOTTO_TICKET_PRICE * ranks.size();
 		return sumPrize.doubleValue() / pay;
 	}
 
