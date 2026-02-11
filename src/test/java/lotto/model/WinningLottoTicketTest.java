@@ -14,8 +14,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import lotto.LottoConfig;
-
 public class WinningLottoTicketTest {
 
 	private List<Integer> winningIntegerNormalNumbers;
@@ -24,9 +22,9 @@ public class WinningLottoTicketTest {
 
 	@BeforeEach
 	void setup() {
-		winningIntegerNormalNumbers = IntStream.rangeClosed(1, LottoConfig.LOTTO_LENGTH).boxed().toList();
+		winningIntegerNormalNumbers = IntStream.rangeClosed(1, LottoTicket.LOTTO_LENGTH).boxed().toList();
 		winningNormalNumbers = winningIntegerNormalNumbers.stream().map(LottoNumber::new).toList();
-		winningBonusNumber = new LottoNumber(LottoConfig.LOTTO_LENGTH+1);
+		winningBonusNumber = new LottoNumber(LottoTicket.LOTTO_LENGTH+1);
 	}
 
 	@ParameterizedTest(name = "[{index}] 일반 {0}개, 보너스 {1}")
@@ -41,10 +39,10 @@ public class WinningLottoTicketTest {
 	}
 
 	static Stream<Arguments> allCases() {
-		return IntStream.rangeClosed(0, LottoConfig.LOTTO_LENGTH)
+		return IntStream.rangeClosed(0, LottoTicket.LOTTO_LENGTH)
 				.boxed()
 				.flatMap(match -> Stream.of(false, true)
-						.filter(bonus -> !(match.equals(LottoConfig.LOTTO_LENGTH) && bonus)) // 불가능 케이스
+						.filter(bonus -> !(match.equals(LottoTicket.LOTTO_LENGTH) && bonus)) // 불가능 케이스
 						.map(bonus -> Arguments.of(match, bonus, Rank.from(match, bonus))));
 	}
 
@@ -55,7 +53,7 @@ public class WinningLottoTicketTest {
 			picked.add(winningBonusNumber.getNumber());
 		}
 
-		int need = LottoConfig.LOTTO_LENGTH - picked.size();
+		int need = LottoTicket.LOTTO_LENGTH - picked.size();
 		picked.addAll(missPool.subList(0, need));
 
 		return new LottoTicket(picked.stream().map(LottoNumber::new).toList());

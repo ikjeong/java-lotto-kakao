@@ -2,8 +2,6 @@ package lotto.model;
 
 import java.util.List;
 
-import lotto.LottoConfig;
-
 public class LottoResult {
 
 	private final List<Rank> ranks;

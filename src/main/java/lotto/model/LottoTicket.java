@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import lotto.LottoConfig;
-
 public class LottoTicket {
+
+	public static final Integer LOTTO_LENGTH = 6;
 
 	private final List<LottoNumber> numbers;
 
@@ -28,8 +28,8 @@ public class LottoTicket {
 
 	private void validateLength(List<LottoNumber> numbers) {
 		Integer numbersLength =  Math.toIntExact(numbers.size());
-		if (!numbersLength.equals(LottoConfig.LOTTO_LENGTH)) {
-			throw new IllegalArgumentException("로또 길이는 " + LottoConfig.LOTTO_LENGTH + " 이어야합니다");
+		if (!numbersLength.equals(LOTTO_LENGTH)) {
+			throw new IllegalArgumentException("로또 길이는 " + LOTTO_LENGTH + " 이어야합니다");
 		}
 	}
 
@@ -38,7 +38,7 @@ public class LottoTicket {
 				.map(LottoNumber::getNumber)
 				.distinct()
 				.count());
-		if (!distinctCount.equals(LottoConfig.LOTTO_LENGTH)) {
+		if (!distinctCount.equals(LOTTO_LENGTH)) {
 			throw new IllegalArgumentException("로또 번호는 중복되지 않아야 합니다.");
 		}
 	}

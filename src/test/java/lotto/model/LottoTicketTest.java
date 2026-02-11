@@ -9,15 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import lotto.LottoConfig;
-
 public class LottoTicketTest {
 
 	private List<LottoNumber> numbers;
 
 	@BeforeEach
 	void setup() {
-		numbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH);
+		numbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH);
 	}
 
 	List<LottoNumber> generateLottoNumbers(Integer startNumber, Integer lottoLength) {
@@ -59,7 +57,7 @@ public class LottoTicketTest {
 	@Test
 	@DisplayName("LottoTicket 생성 시 길이 검증 테스트(짧은 길이)")
 	void validateShortLottoNumbersLength(){
-		List<LottoNumber> shortNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH-1);
+		List<LottoNumber> shortNumbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH-1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoTicket shortLottoTicket = new LottoTicket(shortNumbers);
@@ -69,7 +67,7 @@ public class LottoTicketTest {
 	@Test
 	@DisplayName("LottoTicket 생성 시 길이 검증 테스트(긴 길이)")
 	void validateLongLottoNumbersLength(){
-		List<LottoNumber> longNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH+1);
+		List<LottoNumber> longNumbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH+1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoTicket longtLottoTicket = new LottoTicket(longNumbers);
@@ -79,7 +77,7 @@ public class LottoTicketTest {
 	@Test
 	@DisplayName("LottoTicket 중복된 숫자로 생성시 예외 발생")
 	void validateDuplicateLottoNumber() {
-		List<LottoNumber> duplicateNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH-1);
+		List<LottoNumber> duplicateNumbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH-1);
 		duplicateNumbers.add(new LottoNumber(1));
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
