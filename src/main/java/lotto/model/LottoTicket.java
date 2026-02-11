@@ -1,44 +1,37 @@
 package lotto.model;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class LottoTicket {
 
 	public static final Integer LOTTO_LENGTH = 6;
 
-	private final List<LottoNumber> numbers;
+	private final Set<LottoNumber> lottoNumbers;
 
 	public LottoTicket(List<LottoNumber> numbers) {
 		validateLength(numbers);
-		validateDuplication(numbers);
-
-		this.numbers = numbers.stream()
-				.map(number -> new LottoNumber(number.getNumber()))
-				.sorted(Comparator.comparing(LottoNumber::getNumber))
-				.toList();
+		Set<LottoNumber> lottoNumbers = Set.copyOf(numbers);
+		validateDuplicate(lottoNumbers);
+		this.lottoNumbers = lottoNumbers;
 	}
 
 	public Boolean isMatch(LottoNumber targetNumber) {
-		return numbers.stream()
-				.anyMatch(number -> number.isEqual(targetNumber));
+		return lottoNumbers.contains(targetNumber);
 	}
 
-	private void validateLength(List<LottoNumber> numbers) {
-		Integer numbersLength =  Math.toIntExact(numbers.size());
+	private void validateLength(List<LottoNumber> lottoNumbers) {
+		Integer numbersLength =  Math.toIntExact(lottoNumbers.size());
 		if (!numbersLength.equals(LOTTO_LENGTH)) {
-			throw new IllegalArgumentException("로또 길이는 " + LOTTO_LENGTH + " 이어야합니다");
+			throw new IllegalArgumentException("로또 번호는 " + LOTTO_LENGTH + "개로 이루어져야 합니다.");
 		}
 	}
 
-	private void validateDuplication(List<LottoNumber> numbers) {
-		Integer distinctCount = Math.toIntExact(numbers.stream()
-				.map(LottoNumber::getNumber)
-				.distinct()
-				.count());
-		if (!distinctCount.equals(LOTTO_LENGTH)) {
+	private void validateDuplicate(Set<LottoNumber> lottoNumbers) {
+		Integer numbersLength =  Math.toIntExact(lottoNumbers.size());
+		if (!numbersLength.equals(LOTTO_LENGTH)) {
 			throw new IllegalArgumentException("로또 번호는 중복되지 않아야 합니다.");
 		}
 	}
@@ -46,21 +39,21 @@ public class LottoTicket {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof LottoTicket)) return false;
-		LottoTicket targetLottoTicket = (LottoTicket) o;
-		Long matchCount = numbers.stream().filter(targetLottoTicket::isMatch).count();
-		return matchCount == numbers.size();
+		if (!(o instanceof LottoTicket targetLottoTicket)) return false;
+		Long matchCount = lottoNumbers.stream().filter(targetLottoTicket::isMatch).count();
+		return matchCount == lottoNumbers.size();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(numbers.stream().map(LottoNumber::getNumber).sorted().toArray());
+		return Objects.hash(lottoNumbers.stream().map(LottoNumber::getNumber).sorted().toArray());
 	}
 
 	@Override
 	public String toString() {
-		return numbers.stream()
+		return lottoNumbers.stream()
 				.map(LottoNumber::getNumber)
+				.sorted()
 				.map(String::valueOf)
 				.collect(Collectors.joining(", ", "[", "]"));
 	}

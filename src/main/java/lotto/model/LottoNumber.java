@@ -15,7 +15,15 @@ public class LottoNumber {
 		return number;
 	}
 
-	public Boolean isEqual(LottoNumber targetNumber) {
-		return number.equals(targetNumber.getNumber());
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof LottoNumber targetLottoNumber)) return false;
+		return number.equals(targetLottoNumber.getNumber());
+	}
+
+	@Override
+	public int hashCode() {
+		return number;
 	}
 }

@@ -22,7 +22,7 @@ public class WinningLottoNumbers {
 
 	private void validateBonusInNormal(List<LottoNumber> normalLottoNumbers, LottoNumber bonusLottoNumber) {
 		Boolean isBonusInNormal = normalLottoNumbers.stream()
-				.anyMatch(bonusLottoNumber::isEqual);
+				.anyMatch(bonusLottoNumber::equals);
 
 		if (isBonusInNormal) {
 			throw new IllegalArgumentException("보너스 번호는 일반 번호에 포함되지 않아야 합니다.");

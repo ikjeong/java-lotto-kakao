@@ -1,6 +1,7 @@
 package lotto.model;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ public class LottoNumberTest {
 		LottoNumber number = new LottoNumber(1);
 		LottoNumber sameNumber = new LottoNumber(1);
 
-		Boolean isSame = number.isEqual(sameNumber);
+		Boolean isSame = number.equals(sameNumber);
 		assertThat(isSame).isTrue();
 	}
 
@@ -23,7 +24,7 @@ public class LottoNumberTest {
 		LottoNumber number = new LottoNumber(1);
 		LottoNumber differentNumber = new LottoNumber(2);
 
-		Boolean isSame = number.isEqual(differentNumber);
+		Boolean isSame = number.equals(differentNumber);
 		assertThat(isSame).isFalse();
 	}
 
