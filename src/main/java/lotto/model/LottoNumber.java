@@ -6,7 +6,7 @@ public class LottoNumber {
 
 	public LottoNumber(Integer number) {
 		if (1 > number || number > 45) {
-			throw new RuntimeException("로또는 1부터 45 이내의 숫자이어야 합니다.");
+			throw new IllegalArgumentException("로또는 1부터 45 이내의 숫자이어야 합니다.");
 		}
 		this.number = number;
 	}

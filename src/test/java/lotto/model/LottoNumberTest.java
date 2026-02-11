@@ -1,7 +1,6 @@
 package lotto.model;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatRuntimeException;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,11 +30,11 @@ public class LottoNumberTest {
 	@Test
 	@DisplayName("LottoNumber 범위 검증 테스트(1~45)")
 	void validateNumberRange() {
-		assertThatRuntimeException().isThrownBy(() -> {
+		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoNumber lowNumber = new LottoNumber(0);
 		});
 
-		assertThatRuntimeException().isThrownBy(() -> {
+		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoNumber highNumber = new LottoNumber(46);
 		});
 	}
