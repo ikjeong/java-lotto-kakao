@@ -1,13 +1,13 @@
 package lotto;
 
 import lotto.controller.LottoController;
-import lotto.model.LottoNumbersRandomGenerator;
+import lotto.model.LottoTicketRandomGenerator;
 
 public class LottoApplication {
 
 	public static void main(String[] args) {
-		LottoNumbersRandomGenerator lottoNumbersRandomGenerator = new LottoNumbersRandomGenerator();
-		LottoController lottoController = new LottoController(lottoNumbersRandomGenerator);
+		LottoTicketRandomGenerator lottoTicketRandomGenerator = new LottoTicketRandomGenerator();
+		LottoController lottoController = new LottoController(lottoTicketRandomGenerator);
 
 		lottoController.run();
 	}

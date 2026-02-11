@@ -13,9 +13,9 @@ public class WinningLottoNumbers {
 		this.bonusLottoNumber = bonusLottoNumber;
 	}
 
-	public Rank match(LottoNumbers myLottoNumbers) {
-		Integer normalCount = Math.toIntExact(normalLottoNumbers.stream().filter(myLottoNumbers::isMatch).count());
-		Boolean hasBonus = myLottoNumbers.isMatch(bonusLottoNumber);
+	public Rank match(LottoTicket myLottoTicket) {
+		Integer normalCount = Math.toIntExact(normalLottoNumbers.stream().filter(myLottoTicket::isMatch).count());
+		Boolean hasBonus = myLottoTicket.isMatch(bonusLottoNumber);
 
 		return Rank.from(normalCount, hasBonus);
 	}

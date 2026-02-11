@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import lotto.LottoConfig;
 
-public class LottoNumbersTest {
+public class LottoTicketTest {
 
 	private List<LottoNumber> numbers;
 
@@ -30,71 +30,60 @@ public class LottoNumbersTest {
 
 	@Test
 	@DisplayName("LottoNumber 포함 테스트")
-	void matchLottoNumbers() {
-		LottoNumbers lottoNumbers = new LottoNumbers(numbers);
+	void matchLottoNumber() {
+		LottoTicket lottoTicket = new LottoTicket(numbers);
 		LottoNumber matchNumber = new LottoNumber(1);
 
-		Boolean isMatch = lottoNumbers.isMatch(matchNumber);
+		Boolean isMatch = lottoTicket.isMatch(matchNumber);
 		assertThat(isMatch).isTrue();
 	}
 
 	@Test
 	@DisplayName("LottoNumber 미포함 테스트")
-	void nonMatchLottoNumbers() {
-		LottoNumbers lottoNumbers = new LottoNumbers(numbers);
+	void nonMatchLottoNumber() {
+		LottoTicket lottoTicket = new LottoTicket(numbers);
 		LottoNumber nonMatchNumber =  new LottoNumber(7);
 
-		Boolean isMatch = lottoNumbers.isMatch(nonMatchNumber);
+		Boolean isMatch = lottoTicket.isMatch(nonMatchNumber);
 		assertThat(isMatch).isFalse();
 	}
 
 	@Test
-	@DisplayName("LottoNumbers 간 일치하는 숫자 개수 테스트")
-	void countMatchLottoNumber() {
-		List<LottoNumber> targetNumbers = generateLottoNumbers(4, LottoConfig.LOTTO_LENGTH);
-		LottoNumbers lottoNumbers = new LottoNumbers(numbers);
-		LottoNumbers targetLottoNumbers = new LottoNumbers(targetNumbers);
-
-		Integer count = lottoNumbers.countMatchNumber(targetLottoNumbers);
-		assertThat(count).isEqualTo(3);
-	}
-
-	@Test
-	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(정상 길이)")
+	@DisplayName("LottoTicket 생성 시 길이 검증 테스트(정상 길이)")
 	void validateCorrectLottoNumbersLength(){
 		assertThatNoException().isThrownBy(()->{
-			LottoNumbers lottoNumbers = new LottoNumbers(numbers);
+			LottoTicket lottoTicket = new LottoTicket(numbers);
 		});
 	}
 
 	@Test
-	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(짧은 길이)")
+	@DisplayName("LottoTicket 생성 시 길이 검증 테스트(짧은 길이)")
 	void validateShortLottoNumbersLength(){
 		List<LottoNumber> shortNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH-1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			LottoNumbers shortLottoNumbers = new LottoNumbers(shortNumbers);
+			LottoTicket shortLottoTicket = new LottoTicket(shortNumbers);
 		});
 	}
 
 	@Test
-	@DisplayName("LottoNumbers 생성 시 길이 검증 테스트(긴 길이)")
+	@DisplayName("LottoTicket 생성 시 길이 검증 테스트(긴 길이)")
 	void validateLongLottoNumbersLength(){
 		List<LottoNumber> longNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH+1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			LottoNumbers longtLottoNumbers = new LottoNumbers(longNumbers);
+			LottoTicket longtLottoTicket = new LottoTicket(longNumbers);
 		});
 	}
 
 	@Test
-	@DisplayName("LottoNumbers 중복된 숫자로 생성시 예외 발생")
+	@DisplayName("LottoTicket 중복된 숫자로 생성시 예외 발생")
 	void validateDuplicateLottoNumber() {
 		List<LottoNumber> duplicateNumbers = generateLottoNumbers(1, LottoConfig.LOTTO_LENGTH-1);
 		duplicateNumbers.add(new LottoNumber(1));
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			LottoNumbers duplicateLottoNumbers = new LottoNumbers(duplicateNumbers);
+			LottoTicket duplicateLottoTicket = new LottoTicket(duplicateNumbers);
 		});
 	}
 }

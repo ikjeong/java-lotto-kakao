@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import lotto.LottoConfig;
 
-public class WinningLottoNumbersTest {
+public class WinningLottoTicketTest {
 
 	private List<Integer> winningIntegerNormalNumbers;
 	List<LottoNumber> winningNormalNumbers;
@@ -34,9 +34,9 @@ public class WinningLottoNumbersTest {
 	@DisplayName("당첨 등수 반환 테스트")
 	void countMatchedNumber(Integer match, Boolean bonus, Rank targetRank){
 		WinningLottoNumbers winningLottoNumbers = new WinningLottoNumbers(winningNormalNumbers, winningBonusNumber);
-		LottoNumbers myLottoNumbers = makeCustomLottoNumbers(match, bonus);
+		LottoTicket myLottoTicket = makeCustomLottoTicket(match, bonus);
 
-		Rank rank = winningLottoNumbers.match(myLottoNumbers);
+		Rank rank = winningLottoNumbers.match(myLottoTicket);
 		assertThat(rank).isEqualTo(targetRank);
 	}
 
@@ -48,7 +48,7 @@ public class WinningLottoNumbersTest {
 						.map(bonus -> Arguments.of(match, bonus, Rank.from(match, bonus))));
 	}
 
-	LottoNumbers makeCustomLottoNumbers(int matchCount, boolean bonusMatch) {
+	LottoTicket makeCustomLottoTicket(int matchCount, boolean bonusMatch) {
 		List<Integer> missPool = IntStream.rangeClosed(winningBonusNumber.getNumber()+1, 45).boxed().toList();
 		List<Integer> picked = new ArrayList<>(winningIntegerNormalNumbers.subList(0, matchCount));
 		if (bonusMatch) {
@@ -58,7 +58,7 @@ public class WinningLottoNumbersTest {
 		int need = LottoConfig.LOTTO_LENGTH - picked.size();
 		picked.addAll(missPool.subList(0, need));
 
-		return new LottoNumbers(picked.stream().map(LottoNumber::new).toList());
+		return new LottoTicket(picked.stream().map(LottoNumber::new).toList());
 	}
 
 	@Test

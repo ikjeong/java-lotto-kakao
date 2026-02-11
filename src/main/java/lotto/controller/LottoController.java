@@ -11,12 +11,12 @@ public class LottoController {
 
 	private final InputView inputView;
 	private final OutputView outputView;
-	private final LottoNumbersRandomGenerator lottoNumbersRandomGenerator;
+	private final LottoTicketRandomGenerator lottoTicketRandomGenerator;
 
-	public LottoController(LottoNumbersRandomGenerator lottoNumbersRandomGenerator) {
+	public LottoController(LottoTicketRandomGenerator lottoTicketRandomGenerator) {
 		inputView = new InputView();
 		outputView = new OutputView();
-		this.lottoNumbersRandomGenerator = lottoNumbersRandomGenerator;
+		this.lottoTicketRandomGenerator = lottoTicketRandomGenerator;
 	}
 
 	public void run() {
@@ -29,7 +29,7 @@ public class LottoController {
 
 	private void executeLotto() {
 		Integer ticketCount = calculateTicketCount();
-		List<LottoNumbers> lottoTickets = issueLottoTickets(ticketCount);
+		List<LottoTicket> lottoTickets = issueLottoTickets(ticketCount);
 		WinningLottoNumbers winningLottoNumbers = readWinningLottoNumbers();
 		LottoResult lottoResult = createLottoResult(lottoTickets, winningLottoNumbers);
 		outputView.printLottoResult(lottoResult);
@@ -50,8 +50,8 @@ public class LottoController {
 		throw new IllegalArgumentException(LottoConfig.LOTTO_TICKET_PRICE + "원 이상 입력해야 합니다.");
 	}
 
-	private List<LottoNumbers> issueLottoTickets(Integer ticketCount) {
-		List<LottoNumbers> lottoTickets = lottoNumbersRandomGenerator.generate(ticketCount);
+	private List<LottoTicket> issueLottoTickets(Integer ticketCount) {
+		List<LottoTicket> lottoTickets = lottoTicketRandomGenerator.generate(ticketCount);
 		outputView.printLottoTickets(lottoTickets);
 		return lottoTickets;
 	}
@@ -67,7 +67,7 @@ public class LottoController {
 		return winningNormalIntegerNumbers.stream().map(LottoNumber::new).toList();
 	}
 
-	private LottoResult createLottoResult(List<LottoNumbers> lottoTickets, WinningLottoNumbers winningLottoNumbers) {
+	private LottoResult createLottoResult(List<LottoTicket> lottoTickets, WinningLottoNumbers winningLottoNumbers) {
 		List<Rank> ranks = lottoTickets.stream().map(winningLottoNumbers::match).toList();
 		return new LottoResult(ranks);
 	}

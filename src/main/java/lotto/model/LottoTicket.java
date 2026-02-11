@@ -2,15 +2,16 @@ package lotto.model;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import lotto.LottoConfig;
 
-public class LottoNumbers {
+public class LottoTicket {
 
 	private final List<LottoNumber> numbers;
 
-	public LottoNumbers(List<LottoNumber> numbers) {
+	public LottoTicket(List<LottoNumber> numbers) {
 		validateLength(numbers);
 		validateDuplication(numbers);
 
@@ -23,14 +24,6 @@ public class LottoNumbers {
 	public Boolean isMatch(LottoNumber targetNumber) {
 		return numbers.stream()
 				.anyMatch(number -> number.isEqual(targetNumber));
-	}
-
-	public Integer countMatchNumber(LottoNumbers targetNumbers) {
-		return Math.toIntExact(
-				numbers.stream()
-						.filter(targetNumbers::isMatch)
-						.count()
-		);
 	}
 
 	private void validateLength(List<LottoNumber> numbers) {
@@ -48,6 +41,20 @@ public class LottoNumbers {
 		if (!distinctCount.equals(LottoConfig.LOTTO_LENGTH)) {
 			throw new IllegalArgumentException("로또 번호는 중복되지 않아야 합니다.");
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof LottoTicket)) return false;
+		LottoTicket targetLottoTicket = (LottoTicket) o;
+		Long matchCount = numbers.stream().filter(targetLottoTicket::isMatch).count();
+		return matchCount == numbers.size();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(numbers.stream().map(LottoNumber::getNumber).sorted().toArray());
 	}
 
 	@Override
