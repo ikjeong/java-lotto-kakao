@@ -10,15 +10,15 @@ import java.util.stream.Stream;
 
 import lotto.LottoConfig;
 
-public class LottoRandomGenerator {
+public class LottoNumbersRandomGenerator {
 
 	private final Random random;
 
-	public LottoRandomGenerator(Random random) {
+	public LottoNumbersRandomGenerator(Random random) {
 		this.random = random;
 	}
 
-	public LottoRandomGenerator() {
+	public LottoNumbersRandomGenerator() {
 		this.random = new Random();
 	}
 

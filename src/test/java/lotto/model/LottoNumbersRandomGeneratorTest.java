@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import lotto.LottoConfig;
 
-public class LottoRandomGeneratorTest {
+public class LottoNumbersRandomGeneratorTest {
 
 	@Test
 	@DisplayName("같은 시드에서 같은 결과값을 반환")
@@ -17,8 +17,8 @@ public class LottoRandomGeneratorTest {
 		Random random = new Random(20260105);
 		Random targetRandom = new Random(20260105);
 
-		LottoRandomGenerator generator = new LottoRandomGenerator(random);
-		LottoRandomGenerator targetGenerator = new LottoRandomGenerator(targetRandom);
+		LottoNumbersRandomGenerator generator = new LottoNumbersRandomGenerator(random);
+		LottoNumbersRandomGenerator targetGenerator = new LottoNumbersRandomGenerator(targetRandom);
 
 		LottoNumbers lottoNumbers = generator.generate();
 		LottoNumbers targetLottoNumbers = targetGenerator.generate();
@@ -33,8 +33,8 @@ public class LottoRandomGeneratorTest {
 		Random random = new Random(20260105);
 		Random targetRandom = new Random(20260210);
 
-		LottoRandomGenerator generator = new LottoRandomGenerator(random);
-		LottoRandomGenerator targetGenerator = new LottoRandomGenerator(targetRandom);
+		LottoNumbersRandomGenerator generator = new LottoNumbersRandomGenerator(random);
+		LottoNumbersRandomGenerator targetGenerator = new LottoNumbersRandomGenerator(targetRandom);
 
 		LottoNumbers lottoNumbers = generator.generate();
 		LottoNumbers targetLottoNumbers = targetGenerator.generate();

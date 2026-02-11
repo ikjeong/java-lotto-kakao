@@ -11,12 +11,12 @@ public class LottoController {
 
 	private final InputView inputView;
 	private final OutputView outputView;
-	private final LottoRandomGenerator lottoRandomGenerator;
+	private final LottoNumbersRandomGenerator lottoNumbersRandomGenerator;
 
-	public LottoController(LottoRandomGenerator lottoRandomGenerator) {
+	public LottoController(LottoNumbersRandomGenerator lottoNumbersRandomGenerator) {
 		inputView = new InputView();
 		outputView = new OutputView();
-		this.lottoRandomGenerator = lottoRandomGenerator;
+		this.lottoNumbersRandomGenerator = lottoNumbersRandomGenerator;
 	}
 
 	public void run() {
@@ -51,7 +51,7 @@ public class LottoController {
 	}
 
 	private List<LottoNumbers> issueLottoTickets(Integer ticketCount) {
-		List<LottoNumbers> lottoTickets = lottoRandomGenerator.generate(ticketCount);
+		List<LottoNumbers> lottoTickets = lottoNumbersRandomGenerator.generate(ticketCount);
 		outputView.printLottoTickets(lottoTickets);
 		return lottoTickets;
 	}
