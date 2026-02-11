@@ -57,14 +57,14 @@ public class LottoController {
 	}
 
 	private WinningLottoNumbers readWinningLottoNumbers() {
-		LottoNumbers winningNormalNumbers = readWinningNormalNumbers();
+		List<LottoNumber> winningNormalNumbers = readWinningNormalNumbers();
 		LottoNumber bonusNumber = new LottoNumber(inputView.readBonusNumber());
 		return new WinningLottoNumbers(winningNormalNumbers, bonusNumber);
 	}
 
-	private LottoNumbers readWinningNormalNumbers() {
+	private List<LottoNumber> readWinningNormalNumbers() {
 		List<Integer> winningNormalIntegerNumbers = inputView.readWinningNormalNumbers();
-		return new LottoNumbers(winningNormalIntegerNumbers.stream().map(LottoNumber::new).toList());
+		return winningNormalIntegerNumbers.stream().map(LottoNumber::new).toList();
 	}
 
 	private LottoResult createLottoResult(List<LottoNumbers> lottoTickets, WinningLottoNumbers winningLottoNumbers) {

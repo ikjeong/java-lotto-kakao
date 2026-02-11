@@ -19,13 +19,13 @@ import lotto.LottoConfig;
 public class WinningLottoNumbersTest {
 
 	private List<Integer> winningIntegerNormalNumbers;
-	LottoNumbers winningNormalNumbers;
+	List<LottoNumber> winningNormalNumbers;
 	LottoNumber winningBonusNumber;
 
 	@BeforeEach
 	void setup() {
 		winningIntegerNormalNumbers = IntStream.rangeClosed(1, LottoConfig.LOTTO_LENGTH).boxed().toList();
-		winningNormalNumbers = new LottoNumbers(winningIntegerNormalNumbers.stream().map(LottoNumber::new).toList());
+		winningNormalNumbers = winningIntegerNormalNumbers.stream().map(LottoNumber::new).toList();
 		winningBonusNumber = new LottoNumber(LottoConfig.LOTTO_LENGTH+1);
 	}
 
