@@ -30,7 +30,7 @@ public class WinningLottoTicketTest {
 	@ParameterizedTest(name = "[{index}] 일반 {0}개, 보너스 {1}")
 	@MethodSource("allCases")
 	@DisplayName("당첨 등수 반환 테스트")
-	void countMatchedNumber(Integer match, Boolean bonus, Rank targetRank){
+	void countMatchedNumber(int match, boolean bonus, Rank targetRank){
 		WinningLottoNumbers winningLottoNumbers = new WinningLottoNumbers(winningNormalNumbers, winningBonusNumber);
 		LottoTicket myLottoTicket = makeCustomLottoTicket(match, bonus);
 

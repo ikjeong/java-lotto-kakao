@@ -13,7 +13,7 @@ public class LottoMachineTest {
 	@Test
 	@DisplayName("구매 가격에 따른 티켓 발행 개수 확인")
 	void validateLottoTicketCountByPurchasePrice() {
-		Integer purchasePrice = LottoMachine.LOTTO_TICKET_PRICE * 14 + (LottoMachine.LOTTO_TICKET_PRICE-1);
+		int purchasePrice = LottoMachine.LOTTO_TICKET_PRICE * 14 + (LottoMachine.LOTTO_TICKET_PRICE-1);
 		LottoTicketRandomGenerator lottoTicketRandomGenerator = new LottoTicketRandomGenerator();
 		LottoMachine lottoMachine = new LottoMachine(lottoTicketRandomGenerator);
 
@@ -24,7 +24,7 @@ public class LottoMachineTest {
 	@Test
 	@DisplayName("티켓 최소 구매 금액 미만 예외 처리")
 	void validateMinimumPurchasePrice() {
-		Integer purchasePrice = LottoMachine.LOTTO_TICKET_PRICE-1;
+		int purchasePrice = LottoMachine.LOTTO_TICKET_PRICE-1;
 		LottoTicketRandomGenerator lottoTicketRandomGenerator = new LottoTicketRandomGenerator();
 		LottoMachine lottoMachine = new LottoMachine(lottoTicketRandomGenerator);
 

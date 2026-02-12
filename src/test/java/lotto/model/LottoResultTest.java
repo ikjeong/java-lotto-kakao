@@ -20,8 +20,8 @@ public class LottoResultTest {
 		}
 
 		LottoResult lottoResult = new LottoResult(ranks);
-		Integer returnRate = (int) (lottoResult.calculateReturnRate() * 100);
-		Integer targetReturnRate = 35;
+		int returnRate = (int) (lottoResult.calculateReturnRate() * 100);
+		int targetReturnRate = 35;
 		assertThat(returnRate).isEqualTo(targetReturnRate);
 	}
 
@@ -36,13 +36,13 @@ public class LottoResultTest {
 		ranks.add(Rank.FOURTH);
 
 		LottoResult lottoResult = new LottoResult(ranks);
-		Integer firstCount = lottoResult.countRank(Rank.FIRST);
+		int firstCount = lottoResult.countRank(Rank.FIRST);
 		assertThat(firstCount).isEqualTo(1);
 
-		Integer fourthCount = lottoResult.countRank(Rank.FOURTH);
+		int fourthCount = lottoResult.countRank(Rank.FOURTH);
 		assertThat(fourthCount).isEqualTo(3);
 
-		Integer missCount = lottoResult.countRank(Rank.MISS);
+		int missCount = lottoResult.countRank(Rank.MISS);
 		assertThat(missCount).isEqualTo(0);
 	}
 }

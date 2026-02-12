@@ -8,17 +8,17 @@ public enum Rank {
 	SECOND(5, true, 30_000_000),
 	FIRST(6, false, 2_000_000_000);
 
-	private final Integer normalCount;
-	private final Boolean bonus;
-	private final Integer prize;
+	private final int normalCount;
+	private final boolean bonus;
+	private final int prize;
 
-	Rank(Integer normalCount, Boolean bonus, Integer prize) {
+	Rank(int normalCount, boolean bonus, int prize) {
 		this.normalCount = normalCount;
 		this.bonus = bonus;
 		this.prize = prize;
 	}
 
-	public static Rank from(Integer normalCount, Boolean hasBonus) {
+	public static Rank from(int normalCount, boolean hasBonus) {
 		if (normalCount == 6) return FIRST;
 		if (normalCount == 5 && hasBonus) return SECOND;
 		if (normalCount == 5) return THIRD;
@@ -27,15 +27,15 @@ public enum Rank {
 		return MISS;
 	}
 
-	public Integer normalCount() {
+	public int normalCount() {
 		return normalCount;
 	}
 
-	public Boolean bonus() {
+	public boolean bonus() {
 		return bonus;
 	}
 
-	public Integer prize() {
+	public int prize() {
 		return prize;
 	}
 }

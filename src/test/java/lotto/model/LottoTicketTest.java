@@ -18,9 +18,9 @@ public class LottoTicketTest {
 		numbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH);
 	}
 
-	List<LottoNumber> generateLottoNumbers(Integer startNumber, Integer lottoLength) {
+	List<LottoNumber> generateLottoNumbers(int startNumber, int lottoLength) {
 		List<LottoNumber> lottoNumbers = new ArrayList<>();
-		for (Integer number = startNumber; number < startNumber+lottoLength; number++) {
+		for (int number = startNumber; number < startNumber+lottoLength; number++) {
 			lottoNumbers.add(new LottoNumber(number));
 		}
 		return lottoNumbers;
@@ -32,7 +32,7 @@ public class LottoTicketTest {
 		LottoTicket lottoTicket = new LottoTicket(numbers);
 		LottoNumber matchNumber = new LottoNumber(1);
 
-		Boolean isMatch = lottoTicket.isMatch(matchNumber);
+		boolean isMatch = lottoTicket.isMatch(matchNumber);
 		assertThat(isMatch).isTrue();
 	}
 
@@ -42,7 +42,7 @@ public class LottoTicketTest {
 		LottoTicket lottoTicket = new LottoTicket(numbers);
 		LottoNumber nonMatchNumber =  new LottoNumber(7);
 
-		Boolean isMatch = lottoTicket.isMatch(nonMatchNumber);
+		boolean isMatch = lottoTicket.isMatch(nonMatchNumber);
 		assertThat(isMatch).isFalse();
 	}
 

@@ -12,7 +12,7 @@ public class InputView {
 		scanner = new Scanner(System.in);
 	}
 
-	public Integer readPurchasePrice() {
+	public int readPurchasePrice() {
 		System.out.println("구입금액을 입력해 주세요.");
 		return Integer.parseInt(scanner.nextLine());
 	}
@@ -25,7 +25,7 @@ public class InputView {
 				.toList();
 	}
 
-	public Integer readBonusNumber() {
+	public int readBonusNumber() {
 		System.out.println("보너스 번호를 입력해 주세요.");
 		return Integer.parseInt(scanner.nextLine());
 	}

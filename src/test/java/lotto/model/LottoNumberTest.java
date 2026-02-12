@@ -14,7 +14,7 @@ public class LottoNumberTest {
 		LottoNumber number = new LottoNumber(1);
 		LottoNumber sameNumber = new LottoNumber(1);
 
-		Boolean isSame = number.equals(sameNumber);
+		boolean isSame = number.equals(sameNumber);
 		assertThat(isSame).isTrue();
 	}
 
@@ -24,7 +24,7 @@ public class LottoNumberTest {
 		LottoNumber number = new LottoNumber(1);
 		LottoNumber differentNumber = new LottoNumber(2);
 
-		Boolean isSame = number.equals(differentNumber);
+		boolean isSame = number.equals(differentNumber);
 		assertThat(isSame).isFalse();
 	}
 

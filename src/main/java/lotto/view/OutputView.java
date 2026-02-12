@@ -10,7 +10,7 @@ import lotto.model.Rank;
 
 public class OutputView {
 
-	public void printPurchasedTicketCount(Integer count) {
+	public void printPurchasedTicketCount(int count) {
 		System.out.println(count + "개를 구매했습니다.");
 	}
 
@@ -20,7 +20,7 @@ public class OutputView {
 	}
 
 	public void printLottoResult(LottoResult lottoResult) {
-		Double returnRate = lottoResult.calculateReturnRate();
+		double returnRate = lottoResult.calculateReturnRate();
 
 		System.out.println("당첨 통계");
 		System.out.println("---------");
@@ -37,15 +37,15 @@ public class OutputView {
 		System.out.println("[ERROR] " + errorMessage);
 	}
 
-	private String formatReturnRate(Double returnRate) {
+	private String formatReturnRate(double returnRate) {
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		decimalFormat.setRoundingMode(RoundingMode.DOWN);
 		return decimalFormat.format(returnRate);
 	}
 
-	private String getProfitLossMessage(Double returnRate) {
-		final Double baseRate = 1.0;
-		final Double epsilon = 1e-12;
+	private String getProfitLossMessage(double returnRate) {
+		final double baseRate = 1.0;
+		final double epsilon = 1e-12;
 
 		if (Math.abs(returnRate - baseRate) < epsilon) {
 			return "기준이 1이기 때문에 결과적으로 본전이라는 의미임";

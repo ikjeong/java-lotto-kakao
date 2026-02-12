@@ -14,14 +14,14 @@ public class WinningLottoNumbers {
 	}
 
 	public Rank match(LottoTicket myLottoTicket) {
-		Integer normalCount = Math.toIntExact(normalLottoNumbers.stream().filter(myLottoTicket::isMatch).count());
-		Boolean hasBonus = myLottoTicket.isMatch(bonusLottoNumber);
+		int normalCount = Math.toIntExact(normalLottoNumbers.stream().filter(myLottoTicket::isMatch).count());
+		boolean hasBonus = myLottoTicket.isMatch(bonusLottoNumber);
 
 		return Rank.from(normalCount, hasBonus);
 	}
 
 	private void validateBonusInNormal(List<LottoNumber> normalLottoNumbers, LottoNumber bonusLottoNumber) {
-		Boolean isBonusInNormal = normalLottoNumbers.stream()
+		boolean isBonusInNormal = normalLottoNumbers.stream()
 				.anyMatch(bonusLottoNumber::equals);
 
 		if (isBonusInNormal) {

@@ -30,7 +30,7 @@ public class LottoTicketRandomGenerator {
 		return new LottoTicket(numbers);
 	}
 
-	public List<LottoTicket> generate(Integer count) {
+	public List<LottoTicket> generate(int count) {
 		return Stream.generate(this::generate)
 				.limit(count)
 				.collect(Collectors.toList());

@@ -10,13 +10,13 @@ public class LottoResult {
 		this.ranks = ranks;
 	}
 
-	public Double calculateReturnRate() {
-		Integer sumPrize = ranks.stream().map(Rank::prize).reduce(0, Integer::sum);
-		Integer pay = LottoMachine.LOTTO_TICKET_PRICE * ranks.size();
-		return sumPrize.doubleValue() / pay;
+	public double calculateReturnRate() {
+		int sumPrize = ranks.stream().map(Rank::prize).reduce(0, Integer::sum);
+		int pay = LottoMachine.LOTTO_TICKET_PRICE * ranks.size();
+		return ((double) sumPrize) / pay;
 	}
 
-	public Integer countRank(Rank targetRank) {
+	public int countRank(Rank targetRank) {
 		return Math.toIntExact(ranks.stream().filter(targetRank::equals).count());
 	}
 }
