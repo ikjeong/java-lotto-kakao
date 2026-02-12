@@ -13,23 +13,25 @@ public class LottoMachineTest {
 	@Test
 	@DisplayName("구매 가격에 따른 티켓 발행 개수 확인")
 	void validateLottoTicketCountByPurchasePrice() {
-		Money purchasePrice = new Money(LottoMachine.LOTTO_TICKET_PRICE.amount() * 14 + (LottoMachine.LOTTO_TICKET_PRICE.amount()-1));
+		int ticketPrice = 1_000;
+		Money purchasePrice = new Money(ticketPrice * 14 + (ticketPrice-1));
 		LottoTicketRandomGenerator lottoTicketRandomGenerator = new LottoTicketRandomGenerator();
-		LottoMachine lottoMachine = new LottoMachine(lottoTicketRandomGenerator);
+		LottoMachine lottoMachine = new LottoMachine(new Money(ticketPrice), lottoTicketRandomGenerator);
 
-		List<LottoTicket> lottoTickets = lottoMachine.generate(purchasePrice);
-		assertThat(lottoTickets.size()).isEqualTo(14);
+		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate(purchasePrice);
+		assertThat(machineGeneratedResult.lottoTickets().size()).isEqualTo(14);
 	}
 
 	@Test
 	@DisplayName("티켓 최소 구매 금액 미만 예외 처리")
 	void validateMinimumPurchasePrice() {
-		Money purchasePrice = new Money(LottoMachine.LOTTO_TICKET_PRICE.amount()-1);
+		int ticketPrice = 1_000;
+		Money purchasePrice = new Money(ticketPrice-1);
 		LottoTicketRandomGenerator lottoTicketRandomGenerator = new LottoTicketRandomGenerator();
-		LottoMachine lottoMachine = new LottoMachine(lottoTicketRandomGenerator);
+		LottoMachine lottoMachine = new LottoMachine(new Money(ticketPrice), lottoTicketRandomGenerator);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			List<LottoTicket> lottoTickets = lottoMachine.generate(purchasePrice);
+			LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate(purchasePrice);
 		});
 	}
 }

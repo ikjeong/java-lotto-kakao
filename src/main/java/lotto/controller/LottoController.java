@@ -28,12 +28,12 @@ public class LottoController {
 
 	private void executeLotto() {
 		Money purchasePrice = inputView.readPurchasePrice();
-		List<LottoTicket> lottoTickets = lottoMachine.generate(purchasePrice);
-		outputView.printPurchasedTicketCount(lottoTickets.size());
-		outputView.printLottoTickets(lottoTickets);
+		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate(purchasePrice);
+		outputView.printPurchasedTicketCount(machineGeneratedResult.lottoTickets().size());
+		outputView.printLottoTickets(machineGeneratedResult.lottoTickets());
 
 		WinningLottoNumbers winningLottoNumbers = readWinningLottoNumbers();
-		LottoResult lottoResult = createLottoResult(lottoTickets, winningLottoNumbers);
+		LottoResult lottoResult = createLottoResult(machineGeneratedResult, winningLottoNumbers);
 		outputView.printLottoResult(lottoResult);
 	}
 
@@ -48,8 +48,10 @@ public class LottoController {
 		return winningNormalIntegerNumbers.stream().map(LottoNumber::of).toList();
 	}
 
-	private LottoResult createLottoResult(List<LottoTicket> lottoTickets, WinningLottoNumbers winningLottoNumbers) {
-		List<Rank> ranks = lottoTickets.stream().map(winningLottoNumbers::match).toList();
-		return new LottoResult(ranks);
+	private LottoResult createLottoResult(LottoMachineGeneratedResult machineGeneratedResult, WinningLottoNumbers winningLottoNumbers) {
+		Money totalPrice = machineGeneratedResult.totalPrice();
+		List<Rank> ranks = machineGeneratedResult.lottoTickets().stream()
+				.map(winningLottoNumbers::match).toList();
+		return new LottoResult(totalPrice, ranks);
 	}
 }
