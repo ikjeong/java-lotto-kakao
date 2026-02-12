@@ -23,8 +23,8 @@ public class WinningLottoTicketTest {
 	@BeforeEach
 	void setup() {
 		winningIntegerNormalNumbers = IntStream.rangeClosed(1, LottoTicket.LOTTO_LENGTH).boxed().toList();
-		winningNormalNumbers = winningIntegerNormalNumbers.stream().map(LottoNumber::new).toList();
-		winningBonusNumber = new LottoNumber(LottoTicket.LOTTO_LENGTH+1);
+		winningNormalNumbers = winningIntegerNormalNumbers.stream().map(LottoNumber::of).toList();
+		winningBonusNumber = LottoNumber.of(LottoTicket.LOTTO_LENGTH+1);
 	}
 
 	@ParameterizedTest(name = "[{index}] 일반 {0}개, 보너스 {1}")
@@ -56,13 +56,13 @@ public class WinningLottoTicketTest {
 		int need = LottoTicket.LOTTO_LENGTH - picked.size();
 		picked.addAll(missPool.subList(0, need));
 
-		return new LottoTicket(picked.stream().map(LottoNumber::new).toList());
+		return new LottoTicket(picked.stream().map(LottoNumber::of).toList());
 	}
 
 	@Test
 	@DisplayName("일반 번호와 보너스 번호 중복시 예외")
 	void validateBonusInNormalNumbers() {
-		LottoNumber bonus = new LottoNumber(1);
+		LottoNumber bonus = LottoNumber.of(1);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			WinningLottoNumbers bonusInNormalNumbers =
 					new WinningLottoNumbers(winningNormalNumbers, bonus);

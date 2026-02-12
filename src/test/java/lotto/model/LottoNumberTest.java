@@ -11,8 +11,8 @@ public class LottoNumberTest {
 	@Test
 	@DisplayName("LottoNumber 일치 테스트")
 	void compareSameLottoNumber() {
-		LottoNumber number = new LottoNumber(1);
-		LottoNumber sameNumber = new LottoNumber(1);
+		LottoNumber number = LottoNumber.of(1);
+		LottoNumber sameNumber = LottoNumber.of(1);
 
 		boolean isSame = number.equals(sameNumber);
 		assertThat(isSame).isTrue();
@@ -21,8 +21,8 @@ public class LottoNumberTest {
 	@Test
 	@DisplayName("LottoNumber 불일치 테스트")
 	void compareDifferentLottoNumber() {
-		LottoNumber number = new LottoNumber(1);
-		LottoNumber differentNumber = new LottoNumber(2);
+		LottoNumber number = LottoNumber.of(1);
+		LottoNumber differentNumber = LottoNumber.of(2);
 
 		boolean isSame = number.equals(differentNumber);
 		assertThat(isSame).isFalse();
@@ -32,11 +32,11 @@ public class LottoNumberTest {
 	@DisplayName("LottoNumber 범위 검증 테스트(1~45)")
 	void validateNumberRange() {
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			LottoNumber lowNumber = new LottoNumber(0);
+			LottoNumber lowNumber = LottoNumber.of(0);
 		});
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			LottoNumber highNumber = new LottoNumber(46);
+			LottoNumber highNumber = LottoNumber.of(46);
 		});
 	}
 }

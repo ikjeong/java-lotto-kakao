@@ -39,13 +39,13 @@ public class LottoController {
 
 	private WinningLottoNumbers readWinningLottoNumbers() {
 		List<LottoNumber> winningNormalNumbers = readWinningNormalNumbers();
-		LottoNumber bonusNumber = new LottoNumber(inputView.readBonusNumber());
+		LottoNumber bonusNumber = LottoNumber.of(inputView.readBonusNumber());
 		return new WinningLottoNumbers(winningNormalNumbers, bonusNumber);
 	}
 
 	private List<LottoNumber> readWinningNormalNumbers() {
 		List<Integer> winningNormalIntegerNumbers = inputView.readWinningNormalNumbers();
-		return winningNormalIntegerNumbers.stream().map(LottoNumber::new).toList();
+		return winningNormalIntegerNumbers.stream().map(LottoNumber::of).toList();
 	}
 
 	private LottoResult createLottoResult(List<LottoTicket> lottoTickets, WinningLottoNumbers winningLottoNumbers) {

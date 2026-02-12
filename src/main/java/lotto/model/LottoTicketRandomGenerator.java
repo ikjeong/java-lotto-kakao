@@ -23,7 +23,7 @@ public class LottoTicketRandomGenerator {
 	public LottoTicket generate() {
 		List<LottoNumber> allNumbers = new ArrayList<>(IntStream.rangeClosed(1, 45)
 				.boxed()
-				.map(LottoNumber::new)
+				.map(LottoNumber::of)
 				.toList());
 		Collections.shuffle(allNumbers, random);
 		List<LottoNumber> numbers = allNumbers.subList(0, LottoTicket.LOTTO_LENGTH);
