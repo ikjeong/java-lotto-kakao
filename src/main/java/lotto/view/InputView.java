@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import lotto.model.Money;
+
 public class InputView {
 
 	private final Scanner scanner;
@@ -12,9 +14,9 @@ public class InputView {
 		scanner = new Scanner(System.in);
 	}
 
-	public int readPurchasePrice() {
+	public Money readPurchasePrice() {
 		System.out.println("구입금액을 입력해 주세요.");
-		return Integer.parseInt(scanner.nextLine());
+		return new Money(Integer.parseInt(scanner.nextLine()));
 	}
 
 	public List<Integer> readWinningNormalNumbers() {
