@@ -39,7 +39,7 @@ public class LottoController {
 
 	private WinningLottoNumbers readWinningLottoNumbers() {
 		List<LottoNumber> winningNormalNumbers = readWinningNormalNumbers();
-		LottoNumber bonusNumber = LottoNumber.of(inputView.readBonusNumber());
+		LottoNumber bonusNumber = inputView.readBonusNumber();
 		return new WinningLottoNumbers(winningNormalNumbers, bonusNumber);
 	}
 
