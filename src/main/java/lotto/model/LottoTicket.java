@@ -1,9 +1,9 @@
 package lotto.model;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class LottoTicket {
 
@@ -18,8 +18,12 @@ public class LottoTicket {
 		this.lottoNumbers = lottoNumbers;
 	}
 
-	public boolean  isMatch(LottoNumber targetNumber) {
+	public boolean isMatch(LottoNumber targetNumber) {
 		return lottoNumbers.contains(targetNumber);
+	}
+
+	public List<LottoNumber> getSortedLottoNumbers() {
+		return lottoNumbers.stream().sorted(Comparator.comparing(LottoNumber::getNumber)).toList();
 	}
 
 	private void validateLength(List<LottoNumber> lottoNumbers) {
@@ -47,14 +51,5 @@ public class LottoTicket {
 	@Override
 	public int hashCode() {
 		return Objects.hash(lottoNumbers.stream().map(LottoNumber::getNumber).sorted().toArray());
-	}
-
-	@Override
-	public String toString() {
-		return lottoNumbers.stream()
-				.map(LottoNumber::getNumber)
-				.sorted()
-				.map(String::valueOf)
-				.collect(Collectors.joining(", ", "[", "]"));
 	}
 }

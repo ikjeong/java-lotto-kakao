@@ -3,7 +3,9 @@ package lotto.view;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import lotto.model.LottoNumber;
 import lotto.model.LottoTicket;
 import lotto.model.LottoResult;
 import lotto.model.Rank;
@@ -15,8 +17,14 @@ public class OutputView {
 	}
 
 	public void printLottoTickets(List<LottoTicket> lottoTickets) {
-		lottoTickets.stream()
-				.forEach(System.out::println);
+		for (LottoTicket lottoTicket : lottoTickets) {
+			List<LottoNumber> sortedLottoNumbers = lottoTicket.getSortedLottoNumbers();
+			String lottoTicketOutput = sortedLottoNumbers.stream()
+					.map(LottoNumber::getNumber)
+					.map(String::valueOf)
+					.collect(Collectors.joining(", ", "[", "]"));
+			System.out.println(lottoTicketOutput);
+		}
 	}
 
 	public void printLottoResult(LottoResult lottoResult) {
@@ -29,8 +37,7 @@ public class OutputView {
 		System.out.println("5개 일치 (1500000원)- " + lottoResult.countRank(Rank.THIRD) + "개");
 		System.out.println("5개 일치, 보너스 볼 일치(30000000원) - " + lottoResult.countRank(Rank.SECOND) + "개");
 		System.out.println("6개 일치 (2000000000원)- " + lottoResult.countRank(Rank.FIRST) + "개");
-		System.out.println("총 수익률은 " + formatReturnRate(returnRate)
-				+ "입니다.(" + getProfitLossMessage(returnRate) + ")");
+		System.out.println("총 수익률은 " + formatReturnRate(returnRate) + "입니다.(" + getProfitLossMessage(returnRate) + ")");
 	}
 
 	public void printError(String errorMessage) {
