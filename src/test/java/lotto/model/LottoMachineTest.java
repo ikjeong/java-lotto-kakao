@@ -1,7 +1,6 @@
 package lotto.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -45,13 +44,17 @@ public class LottoMachineTest {
 	}
 
 	@Test
-	@DisplayName("티켓 최소 구매 금액 미만 예외 처리")
+	@DisplayName("티켓 최소 구매 금액 미만인 경우 티켓 발행 개수 및 잔액 확인")
 	void validateMinimumPurchasePrice() {
 		Money purchasePrice = new Money(ticketPrice-1);
 
 		lottoMachine.deposit(purchasePrice);
-		assertThatIllegalArgumentException().isThrownBy(() -> {
-			LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate();
-		});
+		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate();
+		Money totalPrice = machineGeneratedResult.totalPrice();
+		int buyLottoTicketNumber = machineGeneratedResult.lottoTickets().size();
+		Money balance = lottoMachine.getBalance();
+		assertThat(totalPrice).isEqualTo(new Money(0));
+		assertThat(buyLottoTicketNumber).isEqualTo(0);
+		assertThat(balance).isEqualTo(new Money(purchasePrice.amount()));
 	}
 }

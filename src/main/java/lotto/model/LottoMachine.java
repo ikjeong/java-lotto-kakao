@@ -25,10 +25,6 @@ public class LottoMachine {
 
 	public LottoMachineGeneratedResult generate() {
 		int price = balance.amount();
-		if (price < lottoTicketPrice.amount()){
-			throw new IllegalArgumentException("티켓 주문 금액은 최소 " + lottoTicketPrice.amount() + "원 이상 입력해야 합니다.");
-		}
-
 		int ticketCount = price / lottoTicketPrice.amount();
 		Money totalPrice = new Money(lottoTicketPrice.amount() * ticketCount);
 		List<LottoTicket> lottoTickets = lottoTicketRandomGenerator.generate(ticketCount);

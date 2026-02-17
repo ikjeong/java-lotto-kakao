@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import lotto.config.LottoPolicy;
 import lotto.model.LottoNumber;
 import lotto.model.Money;
 
@@ -18,6 +19,9 @@ public class InputView {
 	public Money readPurchasePrice() {
 		System.out.println("구입금액을 입력해 주세요.");
 		int purchasePrice = praseInt(scanner.nextLine());
+		if (purchasePrice < LottoPolicy.LOTTO_TICKET_PRICE) {
+			throw new IllegalArgumentException("최소 " + LottoPolicy.LOTTO_TICKET_PRICE + "원 이상을 입력해주세요.");
+		}
 		return new Money(purchasePrice);
 	}
 
