@@ -23,12 +23,12 @@ public class LottoMachine {
 		return balance;
 	}
 
-	public LottoMachineGeneratedResult generate() {
+	public PurchasedTickets purchaseAutoTickets() {
 		int price = balance.amount();
 		int ticketCount = price / lottoTicketPrice.amount();
 		Money totalPrice = new Money(lottoTicketPrice.amount() * ticketCount);
 		List<LottoTicket> lottoTickets = lottoTicketRandomGenerator.generate(ticketCount);
 		balance = new Money(balance.amount() - totalPrice.amount());
-		return new LottoMachineGeneratedResult(totalPrice, lottoTickets);
+		return new PurchasedTickets(totalPrice, lottoTickets);
 	}
 }

@@ -2,7 +2,7 @@ package lotto.model;
 
 import java.util.List;
 
-public record LottoMachineGeneratedResult(
+public record PurchasedTickets(
 		Money totalPrice,
 		List<LottoTicket> lottoTickets
 ) {

@@ -34,7 +34,7 @@ public class LottoMachineTest {
 		Money purchasePrice = new Money(ticketPrice * 14 + (ticketPrice-1));
 
 		lottoMachine.deposit(purchasePrice);
-		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate();
+		PurchasedTickets machineGeneratedResult = lottoMachine.purchaseAutoTickets();
 		Money totalPrice = machineGeneratedResult.totalPrice();
 		int buyLottoTicketNumber = machineGeneratedResult.lottoTickets().size();
 		Money balance = lottoMachine.getBalance();
@@ -49,7 +49,7 @@ public class LottoMachineTest {
 		Money purchasePrice = new Money(ticketPrice-1);
 
 		lottoMachine.deposit(purchasePrice);
-		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate();
+		PurchasedTickets machineGeneratedResult = lottoMachine.purchaseAutoTickets();
 		Money totalPrice = machineGeneratedResult.totalPrice();
 		int buyLottoTicketNumber = machineGeneratedResult.lottoTickets().size();
 		Money balance = lottoMachine.getBalance();

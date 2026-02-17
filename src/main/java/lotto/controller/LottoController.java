@@ -29,7 +29,7 @@ public class LottoController {
 	private void executeLotto() {
 		Money purchasePrice = inputView.readPurchasePrice();
 		lottoMachine.deposit(purchasePrice);
-		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate();
+		PurchasedTickets machineGeneratedResult = lottoMachine.purchaseAutoTickets();
 		outputView.printPurchasedTicketCount(machineGeneratedResult.lottoTickets().size());
 		outputView.printLottoTickets(machineGeneratedResult.lottoTickets());
 
@@ -49,7 +49,7 @@ public class LottoController {
 		return winningNormalIntegerNumbers.stream().map(LottoNumber::of).toList();
 	}
 
-	private LottoResult createLottoResult(LottoMachineGeneratedResult machineGeneratedResult, WinningLottoNumbers winningLottoNumbers) {
+	private LottoResult createLottoResult(PurchasedTickets machineGeneratedResult, WinningLottoNumbers winningLottoNumbers) {
 		Money totalPrice = machineGeneratedResult.totalPrice();
 		List<Rank> ranks = machineGeneratedResult.lottoTickets().stream()
 				.map(winningLottoNumbers::match).toList();
