@@ -15,7 +15,7 @@ public class LottoTicketTest {
 
 	@BeforeEach
 	void setup() {
-		numbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH);
+		numbers = generateLottoNumbers(LottoNumber.MINIMUM, LottoTicket.LOTTO_LENGTH);
 	}
 
 	List<LottoNumber> generateLottoNumbers(int startNumber, int lottoLength) {
@@ -30,7 +30,7 @@ public class LottoTicketTest {
 	@DisplayName("LottoNumber 포함 테스트")
 	void matchLottoNumber() {
 		LottoTicket lottoTicket = new LottoTicket(numbers);
-		LottoNumber matchNumber = LottoNumber.of(1);
+		LottoNumber matchNumber = LottoNumber.of(LottoNumber.MINIMUM);
 
 		boolean isMatch = lottoTicket.isMatch(matchNumber);
 		assertThat(isMatch).isTrue();
@@ -40,7 +40,7 @@ public class LottoTicketTest {
 	@DisplayName("LottoNumber 미포함 테스트")
 	void nonMatchLottoNumber() {
 		LottoTicket lottoTicket = new LottoTicket(numbers);
-		LottoNumber nonMatchNumber =  LottoNumber.of(7);
+		LottoNumber nonMatchNumber =  LottoNumber.of(LottoTicket.LOTTO_LENGTH + 1);
 
 		boolean isMatch = lottoTicket.isMatch(nonMatchNumber);
 		assertThat(isMatch).isFalse();
@@ -57,7 +57,7 @@ public class LottoTicketTest {
 	@Test
 	@DisplayName("LottoTicket 생성 시 길이 검증 테스트(짧은 길이)")
 	void validateShortLottoNumbersLength(){
-		List<LottoNumber> shortNumbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH-1);
+		List<LottoNumber> shortNumbers = generateLottoNumbers(LottoNumber.MINIMUM, LottoTicket.LOTTO_LENGTH - 1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoTicket shortLottoTicket = new LottoTicket(shortNumbers);
@@ -67,7 +67,7 @@ public class LottoTicketTest {
 	@Test
 	@DisplayName("LottoTicket 생성 시 길이 검증 테스트(긴 길이)")
 	void validateLongLottoNumbersLength(){
-		List<LottoNumber> longNumbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH+1);
+		List<LottoNumber> longNumbers = generateLottoNumbers(LottoNumber.MINIMUM, LottoTicket.LOTTO_LENGTH + 1);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoTicket longtLottoTicket = new LottoTicket(longNumbers);
@@ -77,8 +77,8 @@ public class LottoTicketTest {
 	@Test
 	@DisplayName("LottoTicket 중복된 숫자로 생성시 예외 발생")
 	void validateDuplicateLottoNumber() {
-		List<LottoNumber> duplicateNumbers = generateLottoNumbers(1, LottoTicket.LOTTO_LENGTH-1);
-		duplicateNumbers.add(LottoNumber.of(1));
+		List<LottoNumber> duplicateNumbers = generateLottoNumbers(LottoNumber.MINIMUM, LottoTicket.LOTTO_LENGTH - 1);
+		duplicateNumbers.add(LottoNumber.of(LottoNumber.MINIMUM));
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			LottoTicket duplicateLottoTicket = new LottoTicket(duplicateNumbers);

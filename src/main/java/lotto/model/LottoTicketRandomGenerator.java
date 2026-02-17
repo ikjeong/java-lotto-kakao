@@ -21,7 +21,7 @@ public class LottoTicketRandomGenerator {
 	}
 
 	public LottoTicket generate() {
-		List<LottoNumber> allNumbers = new ArrayList<>(IntStream.rangeClosed(1, 45)
+		List<LottoNumber> allNumbers = new ArrayList<>(IntStream.rangeClosed(LottoNumber.MINIMUM, LottoNumber.MAXIMUM)
 				.boxed()
 				.map(LottoNumber::of)
 				.toList());

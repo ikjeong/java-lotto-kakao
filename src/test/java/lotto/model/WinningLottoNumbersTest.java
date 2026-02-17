@@ -22,9 +22,9 @@ public class WinningLottoNumbersTest {
 
 	@BeforeEach
 	void setup() {
-		winningIntegerNormalNumbers = IntStream.rangeClosed(1, LottoTicket.LOTTO_LENGTH).boxed().toList();
+		winningIntegerNormalNumbers = IntStream.rangeClosed(LottoNumber.MINIMUM, LottoTicket.LOTTO_LENGTH).boxed().toList();
 		winningNormalNumbers = winningIntegerNormalNumbers.stream().map(LottoNumber::of).toList();
-		winningBonusNumber = LottoNumber.of(LottoTicket.LOTTO_LENGTH+1);
+		winningBonusNumber = LottoNumber.of(LottoTicket.LOTTO_LENGTH + 1);
 	}
 
 	@ParameterizedTest(name = "[{index}] 일반 {0}개, 보너스 {1}")
@@ -47,7 +47,7 @@ public class WinningLottoNumbersTest {
 	}
 
 	LottoTicket makeCustomLottoTicket(int matchCount, boolean bonusMatch) {
-		List<Integer> missPool = IntStream.rangeClosed(winningBonusNumber.getNumber()+1, 45).boxed().toList();
+		List<Integer> missPool = IntStream.rangeClosed(winningBonusNumber.getNumber() + 1, LottoNumber.MAXIMUM).boxed().toList();
 		List<Integer> picked = new ArrayList<>(winningIntegerNormalNumbers.subList(0, matchCount));
 		if (bonusMatch) {
 			picked.add(winningBonusNumber.getNumber());
@@ -62,10 +62,9 @@ public class WinningLottoNumbersTest {
 	@Test
 	@DisplayName("일반 번호와 보너스 번호 중복시 예외")
 	void validateBonusInNormalNumbers() {
-		LottoNumber bonus = LottoNumber.of(1);
+		LottoNumber bonus = LottoNumber.of(LottoNumber.MINIMUM);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			WinningLottoNumbers bonusInNormalNumbers =
-					new WinningLottoNumbers(winningNormalNumbers, bonus);
+			WinningLottoNumbers bonusInNormalNumbers = new WinningLottoNumbers(winningNormalNumbers, bonus);
 		});
 	}
 
@@ -73,8 +72,7 @@ public class WinningLottoNumbersTest {
 	@DisplayName("일반 번호와 보너스 번호가 중복되지 않음")
 	void validateBonusNotInNormalNumbers() {
 		assertThatNoException().isThrownBy(() -> {
-			WinningLottoNumbers bonusNotInNormalNumbers =
-					new WinningLottoNumbers(winningNormalNumbers, winningBonusNumber);
+			WinningLottoNumbers bonusNotInNormalNumbers = new WinningLottoNumbers(winningNormalNumbers, winningBonusNumber);
 		});
 	}
 }
