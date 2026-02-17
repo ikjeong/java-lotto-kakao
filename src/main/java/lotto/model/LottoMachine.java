@@ -7,13 +7,24 @@ public class LottoMachine {
 	private final Money lottoTicketPrice;
 	private final LottoTicketRandomGenerator lottoTicketRandomGenerator;
 
+	private Money balance;
+
 	public LottoMachine(Money lottoTicketPrice, LottoTicketRandomGenerator lottoTicketRandomGenerator) {
 		this.lottoTicketPrice = lottoTicketPrice;
 		this.lottoTicketRandomGenerator = lottoTicketRandomGenerator;
+		this.balance = new Money(0);
 	}
 
-	public LottoMachineGeneratedResult generate(Money purchasePrice) {
-		int price = purchasePrice.amount();
+	public void deposit(Money money) {
+		balance = new Money(balance.amount() + money.amount());
+	}
+
+	public Money getBalance() {
+		return balance;
+	}
+
+	public LottoMachineGeneratedResult generate() {
+		int price = balance.amount();
 		if (price < lottoTicketPrice.amount()){
 			throw new IllegalArgumentException("티켓 주문 금액은 최소 " + lottoTicketPrice.amount() + "원 이상 입력해야 합니다.");
 		}
@@ -21,6 +32,7 @@ public class LottoMachine {
 		int ticketCount = price / lottoTicketPrice.amount();
 		Money totalPrice = new Money(lottoTicketPrice.amount() * ticketCount);
 		List<LottoTicket> lottoTickets = lottoTicketRandomGenerator.generate(ticketCount);
+		balance = new Money(balance.amount() - totalPrice.amount());
 		return new LottoMachineGeneratedResult(totalPrice, lottoTickets);
 	}
 }

@@ -28,7 +28,8 @@ public class LottoController {
 
 	private void executeLotto() {
 		Money purchasePrice = inputView.readPurchasePrice();
-		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate(purchasePrice);
+		lottoMachine.deposit(purchasePrice);
+		LottoMachineGeneratedResult machineGeneratedResult = lottoMachine.generate();
 		outputView.printPurchasedTicketCount(machineGeneratedResult.lottoTickets().size());
 		outputView.printLottoTickets(machineGeneratedResult.lottoTickets());
 
