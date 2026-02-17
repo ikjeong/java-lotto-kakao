@@ -27,6 +27,7 @@ public class InputView {
 	}
 
 	public int readManualLottoTicketNumber() {
+		System.out.println();
 		System.out.println("수동으로 구매할 로또 수를 입력해 주세요.");
 		int manualLottoTicketNumber = praseInt(scanner.nextLine());
 		if (manualLottoTicketNumber < 0) {
@@ -39,6 +40,7 @@ public class InputView {
 		if (manualLottoTicketNumber == 0) {
 			return List.of();
 		}
+		System.out.println();
 		System.out.println("수동으로 구매할 번호를 입력해 주세요.");
 		List<List<LottoNumber>> manualLottoNumbersList = new ArrayList<>();
 		for (int i = 0; i < manualLottoTicketNumber; i++) {
@@ -48,6 +50,7 @@ public class InputView {
 	}
 
 	public List<LottoNumber> readWinningNormalNumbers() {
+		System.out.println();
 		System.out.println("지난 주 당첨 번호를 입력해 주세요.");
 		return splitLottoNumbersByDelimiter(scanner.nextLine(), ",");
 	}

@@ -13,6 +13,7 @@ import lotto.model.Rank;
 public class OutputView {
 
 	public void printPurchasedTicketCount(int manualCount, int autoCount) {
+		System.out.println();
 		System.out.println("수동으로 " + manualCount + "장, 자동으로 " + autoCount + "개를 구매했습니다.");
 	}
 
@@ -29,7 +30,7 @@ public class OutputView {
 
 	public void printLottoResult(LottoResult lottoResult) {
 		double returnRate = lottoResult.calculateReturnRate();
-
+		System.out.println();
 		System.out.println("당첨 통계");
 		System.out.println("---------");
 		System.out.println("3개 일치 (" + Rank.FIFTH.prize().amount() + "원)- " + lottoResult.countRank(Rank.FIFTH) + "개");
@@ -41,6 +42,7 @@ public class OutputView {
 	}
 
 	public void printError(String errorMessage) {
+		System.out.println();
 		System.out.println("[ERROR] " + errorMessage);
 	}
 
