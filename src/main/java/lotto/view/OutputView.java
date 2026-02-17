@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import lotto.model.LottoNumber;
-import lotto.model.LottoTicket;
 import lotto.model.LottoResult;
+import lotto.model.LottoTicket;
 import lotto.model.Rank;
 
 public class OutputView {
 
-	public void printPurchasedTicketCount(int count) {
-		System.out.println(count + "개를 구매했습니다.");
+	public void printPurchasedTicketCount(int manualCount, int autoCount) {
+		System.out.println("수동으로 " + manualCount + "장, 자동으로 " + autoCount + "개를 구매했습니다.");
 	}
 
 	public void printLottoTickets(List<LottoTicket> lottoTickets) {

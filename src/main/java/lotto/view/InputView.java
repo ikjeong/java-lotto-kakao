@@ -1,5 +1,6 @@
 package lotto.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -25,12 +26,36 @@ public class InputView {
 		return new Money(purchasePrice);
 	}
 
-	public List<Integer> readWinningNormalNumbers() {
+	public int readManualLottoTicketNumber() {
+		System.out.println("수동으로 구매할 로또 수를 입력해 주세요.");
+		int manualLottoTicketNumber = praseInt(scanner.nextLine());
+		if (manualLottoTicketNumber < 0) {
+			throw new IllegalArgumentException("음이 아닌 정수를 입력해주세요.");
+		}
+		return manualLottoTicketNumber;
+	}
+
+	public List<List<LottoNumber>> readManualLottoNumbersList(int manualLottoTicketNumber) {
+		System.out.println("수동으로 구매할 번호를 입력해 주세요.");
+		List<List<LottoNumber>> manualLottoNumbersList = new ArrayList<>();
+		for (int i = 0; i < manualLottoTicketNumber; i++) {
+			String[] numbers = splitNumbersByDelimiter(scanner.nextLine(), ",");
+			manualLottoNumbersList.add(Arrays.stream(numbers)
+					.map(String::trim)
+					.map(this::praseInt)
+					.map(LottoNumber::of)
+					.toList());
+		}
+		return manualLottoNumbersList;
+	}
+
+	public List<LottoNumber> readWinningNormalNumbers() {
 		System.out.println("지난 주 당첨 번호를 입력해 주세요.");
 		String[] numbers = splitNumbersByDelimiter(scanner.nextLine(), ",");
 		return Arrays.stream(numbers)
 				.map(String::trim)
 				.map(this::praseInt)
+				.map(LottoNumber::of)
 				.toList();
 	}
 
