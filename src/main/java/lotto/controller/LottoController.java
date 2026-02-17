@@ -59,10 +59,9 @@ public class LottoController {
 	}
 
 	private PurchasedTickets mergePurchasedTickets(List<PurchasedTickets> purchasedTicketsList) {
-		long totalPriceAmount = purchasedTicketsList.stream().map(PurchasedTickets::totalPrice)
-				.map(Money::amount)
-				.reduce(0L, Long::sum);
-		Money totalPrice = new Money(totalPriceAmount);
+		Money totalPrice = purchasedTicketsList.stream()
+				.map(PurchasedTickets::totalPrice)
+				.reduce(Money.zero(), Money::add);
 
 		List<LottoTicket> lottoTickets = new ArrayList<>();
 		purchasedTicketsList.stream().map(PurchasedTickets::lottoTickets)

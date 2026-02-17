@@ -16,10 +16,9 @@ public class LottoResult {
 	}
 
 	public double calculateReturnRate() {
-		Money sumPrize = new Money(ranks.stream()
+		Money sumPrize = ranks.stream()
 				.map(Rank::prize)
-				.mapToLong(Money::amount)
-				.sum());
+				.reduce(Money.zero(), Money::add);
 		return ((double) sumPrize.amount()) / totalPrice.amount();
 	}
 
@@ -28,7 +27,7 @@ public class LottoResult {
 	}
 
 	private void validateTotalPrice(Money totalPrice) {
-		if (totalPrice.amount() == 0) {
+		if (totalPrice.isZero()) {
 			throw new IllegalArgumentException("총 구매 금액이 0원보다 높아야 합니다.");
 		}
 	}
