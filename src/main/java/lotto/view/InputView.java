@@ -39,24 +39,14 @@ public class InputView {
 		System.out.println("수동으로 구매할 번호를 입력해 주세요.");
 		List<List<LottoNumber>> manualLottoNumbersList = new ArrayList<>();
 		for (int i = 0; i < manualLottoTicketNumber; i++) {
-			String[] numbers = splitNumbersByDelimiter(scanner.nextLine(), ",");
-			manualLottoNumbersList.add(Arrays.stream(numbers)
-					.map(String::trim)
-					.map(this::praseInt)
-					.map(LottoNumber::of)
-					.toList());
+			manualLottoNumbersList.add(splitLottoNumbersByDelimiter(scanner.nextLine(), ","));
 		}
 		return manualLottoNumbersList;
 	}
 
 	public List<LottoNumber> readWinningNormalNumbers() {
 		System.out.println("지난 주 당첨 번호를 입력해 주세요.");
-		String[] numbers = splitNumbersByDelimiter(scanner.nextLine(), ",");
-		return Arrays.stream(numbers)
-				.map(String::trim)
-				.map(this::praseInt)
-				.map(LottoNumber::of)
-				.toList();
+		return splitLottoNumbersByDelimiter(scanner.nextLine(), ",");
 	}
 
 	public LottoNumber readBonusNumber() {
@@ -79,6 +69,15 @@ public class InputView {
 		} catch (RuntimeException runtimeException) {
 			throw new IllegalArgumentException("정확한 숫자를 입력해주세요.", runtimeException);
 		}
+	}
+
+	private List<LottoNumber> splitLottoNumbersByDelimiter(String input, String delimiter) {
+		String[] numbers = splitNumbersByDelimiter(input, delimiter);
+		return Arrays.stream(numbers)
+				.map(String::trim)
+				.map(this::praseInt)
+				.map(LottoNumber::of)
+				.toList();
 	}
 
 	private String[] splitNumbersByDelimiter(String input, String delimiter) {
