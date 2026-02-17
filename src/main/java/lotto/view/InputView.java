@@ -36,6 +36,9 @@ public class InputView {
 	}
 
 	public List<List<LottoNumber>> readManualLottoNumbersList(int manualLottoTicketNumber) {
+		if (manualLottoTicketNumber == 0) {
+			return List.of();
+		}
 		System.out.println("수동으로 구매할 번호를 입력해 주세요.");
 		List<List<LottoNumber>> manualLottoNumbersList = new ArrayList<>();
 		for (int i = 0; i < manualLottoTicketNumber; i++) {
