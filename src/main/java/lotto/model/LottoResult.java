@@ -31,6 +31,7 @@ public class LottoResult {
 			throw new IllegalArgumentException("총 구매 금액이 0원보다 높아야 합니다.");
 		}
 	}
+
 	private void validateRanks(List<Rank> ranks){
 		if (ranks.isEmpty()){
 			throw new IllegalArgumentException("등수 정보는 1개 이상이어야합니다.");

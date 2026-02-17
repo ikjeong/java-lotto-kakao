@@ -7,9 +7,12 @@ import java.util.stream.IntStream;
 
 public class LottoNumber {
 
+	public static final int MINIMUM = 1;
+	public static final int MAXIMUM = 45;
+
 	private final int number;
 
-	private static final Map<Integer, LottoNumber> lottoNumberPool = IntStream.rangeClosed(1, 45)
+	private static final Map<Integer, LottoNumber> lottoNumberPool = IntStream.rangeClosed(MINIMUM, MAXIMUM)
 			.mapToObj(LottoNumber::new)
 			.collect(Collectors.toUnmodifiableMap(
 					LottoNumber::getNumber,
@@ -31,8 +34,8 @@ public class LottoNumber {
 	}
 
 	private static void validateNumberRange(int targetNumber) {
-		if (1 > targetNumber || targetNumber > 45) {
-			throw new IllegalArgumentException("로또는 1부터 45 이내의 숫자이어야 합니다.");
+		if (MINIMUM > targetNumber || targetNumber > MAXIMUM) {
+			throw new IllegalArgumentException("로또는 " + MINIMUM + "부터 " + MAXIMUM + " 이내의 숫자이어야 합니다.");
 		}
 	}
 
