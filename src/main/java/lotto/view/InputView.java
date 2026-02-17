@@ -19,7 +19,7 @@ public class InputView {
 
 	public Money readPurchasePrice() {
 		System.out.println("구입금액을 입력해 주세요.");
-		int purchasePrice = praseInt(scanner.nextLine());
+		long purchasePrice = praseLong(scanner.nextLine());
 		if (purchasePrice < LottoPolicy.LOTTO_TICKET_PRICE) {
 			throw new IllegalArgumentException("최소 " + LottoPolicy.LOTTO_TICKET_PRICE + "원 이상을 입력해주세요.");
 		}
@@ -63,6 +63,14 @@ public class InputView {
 		System.out.println("보너스 번호를 입력해 주세요.");
 		int bonusNumber = praseInt(scanner.nextLine());
 		return LottoNumber.of(bonusNumber);
+	}
+
+	private long praseLong(String input) {
+		try {
+			return Long.parseLong(input);
+		} catch (RuntimeException runtimeException) {
+			throw new IllegalArgumentException("정확한 숫자를 입력해주세요.", runtimeException);
+		}
 	}
 
 	private int praseInt(String input) {

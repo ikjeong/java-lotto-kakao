@@ -32,11 +32,11 @@ public class OutputView {
 
 		System.out.println("당첨 통계");
 		System.out.println("---------");
-		System.out.println("3개 일치 (5000원)- " + lottoResult.countRank(Rank.FIFTH) + "개");
-		System.out.println("4개 일치 (50000원)- " + lottoResult.countRank(Rank.FOURTH) + "개");
-		System.out.println("5개 일치 (1500000원)- " + lottoResult.countRank(Rank.THIRD) + "개");
-		System.out.println("5개 일치, 보너스 볼 일치(30000000원) - " + lottoResult.countRank(Rank.SECOND) + "개");
-		System.out.println("6개 일치 (2000000000원)- " + lottoResult.countRank(Rank.FIRST) + "개");
+		System.out.println("3개 일치 (" + Rank.FIFTH.prize().amount() + "원)- " + lottoResult.countRank(Rank.FIFTH) + "개");
+		System.out.println("4개 일치 (" + Rank.FOURTH.prize().amount() + "원)- " + lottoResult.countRank(Rank.FOURTH) + "개");
+		System.out.println("5개 일치 (" + Rank.THIRD.prize().amount() + "원)- " + lottoResult.countRank(Rank.THIRD) + "개");
+		System.out.println("5개 일치, 보너스 볼 일치(" + Rank.SECOND.prize().amount() + "원) - " + lottoResult.countRank(Rank.SECOND) + "개");
+		System.out.println("6개 일치 (" + Rank.FIRST.prize().amount() + "원)- " + lottoResult.countRank(Rank.FIRST) + "개");
 		System.out.println("총 수익률은 " + formatReturnRate(returnRate) + "입니다.(" + getProfitLossMessage(returnRate) + ")");
 	}
 

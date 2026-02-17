@@ -16,7 +16,10 @@ public class LottoResult {
 	}
 
 	public double calculateReturnRate() {
-		Money sumPrize = new Money(ranks.stream().map(Rank::prize).reduce(0, Integer::sum));
+		Money sumPrize = new Money(ranks.stream()
+				.map(Rank::prize)
+				.mapToLong(Money::amount)
+				.sum());
 		return ((double) sumPrize.amount()) / totalPrice.amount();
 	}
 

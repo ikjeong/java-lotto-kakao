@@ -24,7 +24,7 @@ public class LottoMachine {
 	}
 
 	public PurchasedTickets purchaseAutoTickets() {
-		int ticketCount = balance.amount() / lottoTicketPrice.amount();
+		int ticketCount = Math.toIntExact(balance.amount() / lottoTicketPrice.amount());
 		Money totalPrice = new Money(lottoTicketPrice.amount() * ticketCount);
 		List<LottoTicket> lottoTickets = lottoTicketRandomGenerator.generate(ticketCount);
 		balance = new Money(balance.amount() - totalPrice.amount());

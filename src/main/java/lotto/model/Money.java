@@ -1,6 +1,6 @@
 package lotto.model;
 
-public record Money(int amount) {
+public record Money(long amount) {
 
 	public Money {
 		if (amount < 0) {
