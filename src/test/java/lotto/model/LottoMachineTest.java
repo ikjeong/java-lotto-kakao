@@ -3,6 +3,7 @@ package lotto.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -66,14 +67,10 @@ public class LottoMachineTest {
 	void validatePurchaseManualTicket() {
 		Money purchasePrice = ticketPrice;
 		lottoMachine.deposit(purchasePrice);
-		List<LottoNumber> targetLottoNumbers = List.of(
-				LottoNumber.of(1),
-				LottoNumber.of(2),
-				LottoNumber.of(3),
-				LottoNumber.of(4),
-				LottoNumber.of(5),
-				LottoNumber.of(6)
-		);
+		List<LottoNumber> targetLottoNumbers = new ArrayList<>();
+		for (int i = 1; i <= LottoTicket.LOTTO_LENGTH; i++) {
+			targetLottoNumbers.add(LottoNumber.of(i));
+		}
 
 		PurchasedTickets purchasedTickets = lottoMachine.purchaseManualTicket(targetLottoNumbers);
 		Money totalPrice = purchasedTickets.totalPrice();
@@ -83,7 +80,7 @@ public class LottoMachineTest {
 		assertThat(lottoTickets.size()).isEqualTo(1);
 		assertThat(balance).isEqualTo(Money.zero());
 		List<LottoNumber> lottoNumbers = lottoTickets.getFirst().getSortedLottoNumbers();
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < LottoTicket.LOTTO_LENGTH; i++) {
 			assertThat(lottoNumbers.get(i)).isEqualTo(targetLottoNumbers.get(i));
 		}
 	}
@@ -93,14 +90,10 @@ public class LottoMachineTest {
 	void validatePurchaseManualTicketWithInsufficientBalance() {
 		Money purchasePrice = ticketPrice.subtract(new Money(1L));
 		lottoMachine.deposit(purchasePrice);
-		List<LottoNumber> targetLottoNumbers = List.of(
-				LottoNumber.of(1),
-				LottoNumber.of(2),
-				LottoNumber.of(3),
-				LottoNumber.of(4),
-				LottoNumber.of(5),
-				LottoNumber.of(6)
-		);
+		List<LottoNumber> targetLottoNumbers = new ArrayList<>();
+		for (int i = 1; i <= LottoTicket.LOTTO_LENGTH; i++) {
+			targetLottoNumbers.add(LottoNumber.of(i));
+		}
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			PurchasedTickets purchasedTickets = lottoMachine.purchaseManualTicket(targetLottoNumbers);
