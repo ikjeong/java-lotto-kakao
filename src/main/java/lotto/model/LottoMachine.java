@@ -12,13 +12,18 @@ public class LottoMachine {
 		this.lottoTicketRandomGenerator = lottoTicketRandomGenerator;
 	}
 
-	public PurchasedTicketsGroup purchaseTickets(Money purchasePrice, List<List<LottoNumber>> targetLottoNumbersList) {
-		if (purchasePrice.isLessThan(lottoTicketPrice)) {
-			throw new IllegalArgumentException("최소 " + lottoTicketPrice.amount() + "원 이상을 입력해주세요.");
-		}
+	public PurchasedTicketsGroup purchaseAtLeastOneTicket(Money purchasePrice, List<List<LottoNumber>> targetLottoNumbersList) {
+		validateAtLeastOneTicketPurchase(purchasePrice);
 		PurchasedTickets manualPurchasedTickets = purchaseManualTickets(purchasePrice, targetLottoNumbersList);
 		PurchasedTickets autoPurchasedTickets = purchaseAutoTickets(purchasePrice.subtract(manualPurchasedTickets.totalPrice()));
 		return new PurchasedTicketsGroup(manualPurchasedTickets, autoPurchasedTickets);
+	}
+
+	private void validateAtLeastOneTicketPurchase(Money purchasePrice) {
+		long purchasableTicketCount = purchasePrice.calculateQuotientDivideBy(lottoTicketPrice);
+		if (purchasableTicketCount < 1) {
+			throw new IllegalArgumentException("최소 1장을 구매할 수 있는 금액(" + lottoTicketPrice.amount() + "원) 이상을 입력해주세요.");
+		}
 	}
 
 	public PurchasedTickets purchaseManualTickets(Money purchasePrice, List<List<LottoNumber>> targetLottoNumbersList) {

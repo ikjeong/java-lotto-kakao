@@ -38,7 +38,7 @@ public class LottoController {
 		Money purchasePrice = inputView.readPurchasePrice();
 		List<List<LottoNumber>> manualLottoNumbersList = readManualLottoNumbersList();
 
-		PurchasedTicketsGroup purchasedTicketsGroup = lottoMachine.purchaseTickets(purchasePrice, manualLottoNumbersList);
+		PurchasedTicketsGroup purchasedTicketsGroup = lottoMachine.purchaseAtLeastOneTicket(purchasePrice, manualLottoNumbersList);
 		PurchasedTickets manualPurchasedTickets = purchasedTicketsGroup.manualPurchasedTickets();
 		PurchasedTickets autoPurchasedTickets = purchasedTicketsGroup.autoPurchasedTickets();
 		outputView.printPurchasedTicketCount(manualPurchasedTickets.lottoTickets().size(), autoPurchasedTickets.lottoTickets().size());

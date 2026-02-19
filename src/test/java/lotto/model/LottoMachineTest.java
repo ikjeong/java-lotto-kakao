@@ -27,7 +27,7 @@ public class LottoMachineTest {
 		List<LottoNumber> firstManualNumbers = pickLottoNumbersFrom(0);
 		List<LottoNumber> secondManualNumbers = pickLottoNumbersFrom(LottoTicket.LOTTO_LENGTH);
 
-		PurchasedTicketsGroup purchasedTicketsGroup = lottoMachine.purchaseTickets(
+		PurchasedTicketsGroup purchasedTicketsGroup = lottoMachine.purchaseAtLeastOneTicket(
 				purchasePrice,
 				List.of(firstManualNumbers, secondManualNumbers)
 		);
@@ -54,7 +54,7 @@ public class LottoMachineTest {
 		Money purchasePrice = ticketPrice.subtract(new Money(1L));
 
 		assertThatIllegalArgumentException().isThrownBy(() ->
-				lottoMachine.purchaseTickets(purchasePrice, List.of())
+				lottoMachine.purchaseAtLeastOneTicket(purchasePrice, List.of())
 		);
 	}
 
