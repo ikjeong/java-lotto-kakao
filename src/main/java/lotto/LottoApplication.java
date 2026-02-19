@@ -1,16 +1,18 @@
 package lotto;
 
-import lotto.config.LottoPolicy;
+import java.util.List;
+
 import lotto.controller.LottoController;
 import lotto.model.LottoMachine;
-import lotto.model.LottoTicketRandomGenerator;
-import lotto.model.Money;
+import lotto.model.generator.LottoTicketManualGenerator;
+import lotto.model.generator.LottoTicketRandomGenerator;
 
 public class LottoApplication {
 
 	public static void main(String[] args) {
 		LottoTicketRandomGenerator lottoTicketRandomGenerator = new LottoTicketRandomGenerator();
-		LottoMachine lottoMachine = new LottoMachine(new Money(LottoPolicy.LOTTO_TICKET_PRICE), lottoTicketRandomGenerator);
+		LottoTicketManualGenerator lottoTicketManualGenerator = new LottoTicketManualGenerator();
+		LottoMachine lottoMachine = new LottoMachine(List.of(lottoTicketRandomGenerator, lottoTicketManualGenerator));
 		LottoController lottoController = new LottoController(lottoMachine);
 
 		lottoController.run();

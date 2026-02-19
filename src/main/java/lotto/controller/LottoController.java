@@ -2,7 +2,10 @@ package lotto.controller;
 
 import java.util.List;
 
+import lotto.config.LottoPolicy;
 import lotto.model.*;
+import lotto.model.generator.ManualGenerateType;
+import lotto.model.generator.RandomGenerateType;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
@@ -27,25 +30,24 @@ public class LottoController {
 	}
 
 	private void executeLotto() {
-		PurchasedTickets allPurchasedTickets = purchaseTickets();
+		PurchaseSession purchasedTickets = purchaseTickets();
 		WinningLottoNumbers winningLottoNumbers = readWinningLottoNumbers();
 
-		LottoResult lottoResult = createLottoResult(allPurchasedTickets, winningLottoNumbers);
+		LottoResult lottoResult = createLottoResult(purchasedTickets, winningLottoNumbers);
 		outputView.printLottoResult(lottoResult);
 	}
 
-	private PurchasedTickets purchaseTickets() {
+	private PurchaseSession purchaseTickets() {
 		Money purchasePrice = inputView.readPurchasePrice();
+		PurchaseSession purchaseSession = new PurchaseSession(new Money(LottoPolicy.LOTTO_TICKET_PRICE), purchasePrice, lottoMachine);
 		List<List<LottoNumber>> manualLottoNumbersList = readManualLottoNumbersList();
 
-		PurchasedTicketsGroup purchasedTicketsGroup = lottoMachine.purchaseAtLeastOneTicket(purchasePrice, manualLottoNumbersList);
-		PurchasedTickets manualPurchasedTickets = purchasedTicketsGroup.manualPurchasedTickets();
-		PurchasedTickets autoPurchasedTickets = purchasedTicketsGroup.autoPurchasedTickets();
-		outputView.printPurchasedTicketCount(manualPurchasedTickets.lottoTickets().size(), autoPurchasedTickets.lottoTickets().size());
-		outputView.printLottoTickets(manualPurchasedTickets.lottoTickets());
-		outputView.printLottoTickets(autoPurchasedTickets.lottoTickets());
-
-		return purchasedTicketsGroup.getMergedPurchasedTickets();
+		purchaseSession.purchaseTickets(new ManualGenerateType(manualLottoNumbersList));
+		int purchasableRandomTicketCount = purchaseSession.getPurchasableCount();
+		purchaseSession.purchaseTickets(new RandomGenerateType(purchasableRandomTicketCount));
+		outputView.printPurchasedTicketCount(manualLottoNumbersList.size(), purchasableRandomTicketCount);
+		outputView.printLottoTickets(purchaseSession.getLottoTickets());
+		return purchaseSession;
 	}
 
 	private List<List<LottoNumber>> readManualLottoNumbersList() {
@@ -59,9 +61,9 @@ public class LottoController {
 		return new WinningLottoNumbers(winningNormalNumbers, bonusNumber);
 	}
 
-	private LottoResult createLottoResult(PurchasedTickets purchasedTickets, WinningLottoNumbers winningLottoNumbers) {
-		Money totalPrice = purchasedTickets.totalPrice();
-		List<Rank> ranks = purchasedTickets.lottoTickets().stream()
+	private LottoResult createLottoResult(PurchaseSession purchasedTickets, WinningLottoNumbers winningLottoNumbers) {
+		Money totalPrice = purchasedTickets.getTotalPrice();
+		List<Rank> ranks = purchasedTickets.getLottoTickets().stream()
 				.map(winningLottoNumbers::match).toList();
 		return new LottoResult(totalPrice, ranks);
 	}

@@ -24,12 +24,18 @@
    - [x] 음수 예외처리
 
 ## Step2 테스트 설계
-1. LottoMachine
-   - [x] 수동 로또 구매 테스트
-2. 돈
+1. LottoTicketManualGenerator
+   - [x] 수동 로또 번호 생성 테스트
+2. LottoMachine
+   - [x] 지원되는 GeneratorType 검사
+3. Money
    - [x] 금액 연산 테스트
-3. PurchasedTickets
-   - [x] 구매 티켓 정보 병합
+4. PurchaseSession
+   - [x] 최소 로또 구매 금액 검증
+   - [x] 구매 가능한 티켓 수 검증
+   - [x] 구매 후 구매한 가격 반영
+   - [x] 구매 후 티켓 리스트 반영
+   - [x] 잔액 부족시 예외
 
 ## 실행 예시
 ```text

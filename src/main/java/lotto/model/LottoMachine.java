@@ -2,45 +2,26 @@ package lotto.model;
 
 import java.util.List;
 
+import lotto.model.generator.LottoTicketGenerator;
+import lotto.model.generator.GenerateType;
+
 public class LottoMachine {
 
-	private final Money lottoTicketPrice;
-	private final LottoTicketRandomGenerator lottoTicketRandomGenerator;
+	private final List<LottoTicketGenerator> lottoTicketGenerators;
 
-	public LottoMachine(Money lottoTicketPrice, LottoTicketRandomGenerator lottoTicketRandomGenerator) {
-		this.lottoTicketPrice = lottoTicketPrice;
-		this.lottoTicketRandomGenerator = lottoTicketRandomGenerator;
+	public LottoMachine(List<LottoTicketGenerator> lottoTicketGenerators) {
+		this.lottoTicketGenerators = List.copyOf(lottoTicketGenerators);
 	}
 
-	public PurchasedTicketsGroup purchaseAtLeastOneTicket(Money purchasePrice, List<List<LottoNumber>> targetLottoNumbersList) {
-		validateAtLeastOneTicketPurchase(purchasePrice);
-		PurchasedTickets manualPurchasedTickets = purchaseManualTickets(purchasePrice, targetLottoNumbersList);
-		PurchasedTickets autoPurchasedTickets = purchaseAutoTickets(purchasePrice.subtract(manualPurchasedTickets.totalPrice()));
-		return new PurchasedTicketsGroup(manualPurchasedTickets, autoPurchasedTickets);
+	public List<LottoTicket> issueTickets(GenerateType generateType) {
+		LottoTicketGenerator lottoTicketGenerator = findLottoTicketGenerator(generateType);
+		return lottoTicketGenerator.generate(generateType);
 	}
 
-	private void validateAtLeastOneTicketPurchase(Money purchasePrice) {
-		long purchasableTicketCount = purchasePrice.calculateQuotientDivideBy(lottoTicketPrice);
-		if (purchasableTicketCount < 1) {
-			throw new IllegalArgumentException("최소 1장을 구매할 수 있는 금액(" + lottoTicketPrice.amount() + "원) 이상을 입력해주세요.");
-		}
-	}
-
-	public PurchasedTickets purchaseManualTickets(Money purchasePrice, List<List<LottoNumber>> targetLottoNumbersList) {
-		Money totalPrice = lottoTicketPrice.multiply(targetLottoNumbersList.size());
-		if (purchasePrice.isLessThan(totalPrice)) {
-			throw new IllegalArgumentException("수동 구매 금액이 부족합니다. 최소 " + totalPrice.amount() + "원이 필요합니다.");
-		}
-		List<LottoTicket> lottoTickets = targetLottoNumbersList.stream()
-				.map(LottoTicket::new)
-				.toList();
-		return new PurchasedTickets(totalPrice, lottoTickets);
-	}
-
-	public PurchasedTickets purchaseAutoTickets(Money purchasePrice) {
-		int ticketCount = Math.toIntExact(purchasePrice.calculateQuotientDivideBy(lottoTicketPrice));
-		Money totalPrice = lottoTicketPrice.multiply(ticketCount);
-		List<LottoTicket> lottoTickets = lottoTicketRandomGenerator.generate(ticketCount);
-		return new PurchasedTickets(totalPrice, lottoTickets);
+	private LottoTicketGenerator findLottoTicketGenerator(GenerateType generateType) {
+		return lottoTicketGenerators.stream()
+				.filter(generator -> generator.supports(generateType))
+				.findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("지원하지 않는 구매 타입입니다."));
 	}
 }
