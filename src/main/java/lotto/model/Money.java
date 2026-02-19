@@ -18,16 +18,10 @@ public record Money(long amount) {
 
 	public Money subtract(Money target) {
 		long result = amount - target.amount;
-		if (result < 0) {
-			throw new IllegalArgumentException("금액은 음수가 될 수 없습니다.");
-		}
 		return new Money(result);
 	}
 
 	public Money multiply(long factor) {
-		if (factor < 0) {
-			throw new IllegalArgumentException("곱셈 계수는 음수가 될 수 없습니다.");
-		}
 		return new Money(Math.multiplyExact(amount, factor));
 	}
 

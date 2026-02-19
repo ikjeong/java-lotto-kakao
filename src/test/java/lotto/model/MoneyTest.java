@@ -45,14 +45,6 @@ public class MoneyTest {
 	}
 
 	@Test
-	@DisplayName("금액 뺄셈 결과가 음수면 예외")
-	void subtractMoneyToNegative() {
-		assertThatIllegalArgumentException().isThrownBy(() -> {
-			Money subtract = new Money(500L).subtract(new Money(1_000L));
-		});
-	}
-
-	@Test
 	@DisplayName("0원 정적 팩토리")
 	void createZeroMoney() {
 		assertThat(Money.zero()).isEqualTo(new Money(0L));
@@ -63,14 +55,6 @@ public class MoneyTest {
 	void multiplyMoney() {
 		Money result = new Money(1_000L).multiply(3L);
 		assertThat(result).isEqualTo(new Money(3_000L));
-	}
-
-	@Test
-	@DisplayName("음수 곱셈 계수 예외")
-	void multiplyMoneyWithNegativeFactor() {
-		assertThatIllegalArgumentException().isThrownBy(() -> {
-			Money multiply = new Money(1_000L).multiply(-1L);
-		});
 	}
 
 	@Test
