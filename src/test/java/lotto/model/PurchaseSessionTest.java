@@ -32,7 +32,7 @@ public class PurchaseSessionTest {
 		Money depositPrice = ticketPrice.subtract(new Money(1L));
 
 		assertThatIllegalArgumentException().isThrownBy(() ->
-				new PurchaseSession(ticketPrice, depositPrice, lottoMachine)
+				new PurchaseSession(depositPrice, lottoMachine)
 		);
 	}
 
@@ -40,7 +40,7 @@ public class PurchaseSessionTest {
 	@DisplayName("구매 금액이 티켓 가격보다 같거나 크면 세션 생성 가능")
 	void createsSessionWhenDepositEqualsTicketPrice() {
 		assertThatNoException().isThrownBy(() -> {
-			PurchaseSession session = new PurchaseSession(ticketPrice, ticketPrice, lottoMachine);
+			PurchaseSession session = new PurchaseSession(ticketPrice, lottoMachine);
 		});
 	}
 
@@ -48,7 +48,7 @@ public class PurchaseSessionTest {
 	@DisplayName("구매 가능한 티켓 수")
 	void getPurchasableCountReturnsDepositDividedByTicketPrice() {
 		Money depositPrice = ticketPrice.multiply(5L);
-		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
+		PurchaseSession session = new PurchaseSession(depositPrice, lottoMachine);
 
 		assertThat(session.getPurchasableCount()).isEqualTo(5);
 	}
@@ -57,7 +57,7 @@ public class PurchaseSessionTest {
 	@DisplayName("구매 후 총 가격에 반영")
 	void totalPriceIsUpdatedAfterPurchase() {
 		Money depositPrice = ticketPrice.multiply(3L);
-		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
+		PurchaseSession session = new PurchaseSession(depositPrice, lottoMachine);
 		List<LottoNumber> firstLottoNumbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
 		List<LottoNumber> secondLottoNumbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
 		ManualGenerateType generateType = new ManualGenerateType(List.of(firstLottoNumbers, secondLottoNumbers));
@@ -70,7 +70,7 @@ public class PurchaseSessionTest {
 	@DisplayName("구매 후 티켓 목록에 반영")
 	void purchasedTicketsAreAddedToList() {
 		Money depositPrice = ticketPrice.multiply(3L);
-		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
+		PurchaseSession session = new PurchaseSession(depositPrice, lottoMachine);
 		List<LottoNumber> numbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
 		ManualGenerateType generateType = new ManualGenerateType(List.of(numbers));
 
@@ -83,7 +83,7 @@ public class PurchaseSessionTest {
 	@DisplayName("구매 후 구매 가능 수 감소")
 	void purchasableCountDecreasesAfterPurchase() {
 		Money depositPrice = ticketPrice.multiply(3L);
-		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
+		PurchaseSession session = new PurchaseSession(depositPrice, lottoMachine);
 		List<LottoNumber> numbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
 
 		session.purchaseTickets(new ManualGenerateType(List.of(numbers)));
@@ -94,7 +94,7 @@ public class PurchaseSessionTest {
 	@DisplayName("잔액 부족 시 구매 시 예외 발생")
 	void throwsExceptionWhenInsufficientBalance() {
 		Money depositPrice = ticketPrice;
-		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
+		PurchaseSession session = new PurchaseSession(depositPrice, lottoMachine);
 		RandomGenerateType generateType = new RandomGenerateType(2);
 
 		assertThatIllegalArgumentException().isThrownBy(() ->
@@ -106,7 +106,7 @@ public class PurchaseSessionTest {
 	@DisplayName("복수 구매 후 누적 티켓 수 확인")
 	void accumulatesTicketsAcrossMultiplePurchases() {
 		Money depositPrice = ticketPrice.multiply(5L);
-		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
+		PurchaseSession session = new PurchaseSession(depositPrice, lottoMachine);
 		List<LottoNumber> numbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
 
 		session.purchaseTickets(new ManualGenerateType(List.of(numbers)));

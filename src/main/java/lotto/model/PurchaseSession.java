@@ -7,6 +7,8 @@ import lotto.model.generator.GenerateType;
 
 public class PurchaseSession {
 
+	private static final long LOTTO_TICEKT_PRICE = 1_000L;
+
 	private final Money ticketPrice;
 	private final LottoMachine lottoMachine;
 	private final Money depositPrice;
@@ -14,12 +16,11 @@ public class PurchaseSession {
 	private Money totalPrice;
 	private List<LottoTicket> lottoTickets;
 
-	public PurchaseSession(Money ticketPrice, Money depositPrice, LottoMachine lottoMachine) {
+	public PurchaseSession(Money depositPrice, LottoMachine lottoMachine) {
+		this.ticketPrice = new Money(LOTTO_TICEKT_PRICE);
 		if (depositPrice.isLessThan(ticketPrice)) {
 			throw new IllegalArgumentException("최소 " + ticketPrice.amount() + "원 이상 입력해야 합니다.");
 		}
-
-		this.ticketPrice = ticketPrice;
 		this.depositPrice = depositPrice;
 		this.lottoMachine = lottoMachine;
 		totalPrice = Money.zero();

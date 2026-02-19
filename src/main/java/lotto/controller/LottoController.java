@@ -2,7 +2,6 @@ package lotto.controller;
 
 import java.util.List;
 
-import lotto.config.LottoPolicy;
 import lotto.model.*;
 import lotto.model.generator.ManualGenerateType;
 import lotto.model.generator.RandomGenerateType;
@@ -39,7 +38,7 @@ public class LottoController {
 
 	private PurchaseSession purchaseTickets() {
 		Money purchasePrice = inputView.readPurchasePrice();
-		PurchaseSession purchaseSession = new PurchaseSession(new Money(LottoPolicy.LOTTO_TICKET_PRICE), purchasePrice, lottoMachine);
+		PurchaseSession purchaseSession = new PurchaseSession(purchasePrice, lottoMachine);
 		List<List<LottoNumber>> manualLottoNumbersList = readManualLottoNumbersList();
 
 		purchaseSession.purchaseTickets(new ManualGenerateType(manualLottoNumbersList));
