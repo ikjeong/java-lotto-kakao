@@ -36,19 +36,21 @@ public class LottoController {
 
 	private PurchasedTickets purchaseTickets() {
 		Money purchasePrice = inputView.readPurchasePrice();
-		PurchasedTickets manualPurchasedTickets = purchaseManualTickets(purchasePrice);
-		PurchasedTickets autoPurchasedTickets = lottoMachine.purchaseAutoTickets(purchasePrice.subtract(manualPurchasedTickets.totalPrice()));
+		List<List<LottoNumber>> manualLottoNumbersList = readManualLottoNumbersList();
+
+		PurchasedTicketsGroup purchasedTicketsGroup = lottoMachine.purchaseTickets(purchasePrice, manualLottoNumbersList);
+		PurchasedTickets manualPurchasedTickets = purchasedTicketsGroup.manualPurchasedTickets();
+		PurchasedTickets autoPurchasedTickets = purchasedTicketsGroup.autoPurchasedTickets();
 		outputView.printPurchasedTicketCount(manualPurchasedTickets.lottoTickets().size(), autoPurchasedTickets.lottoTickets().size());
 		outputView.printLottoTickets(manualPurchasedTickets.lottoTickets());
 		outputView.printLottoTickets(autoPurchasedTickets.lottoTickets());
 
-		return PurchasedTickets.mergePurchasedTicketsList(List.of(manualPurchasedTickets, autoPurchasedTickets));
+		return purchasedTicketsGroup.getMergedPurchasedTickets();
 	}
 
-	private PurchasedTickets purchaseManualTickets(Money purchasePrice) {
+	private List<List<LottoNumber>> readManualLottoNumbersList() {
 		int manualLottoTicketNumber = inputView.readManualLottoTicketNumber();
-		List<List<LottoNumber>> manualLottoNumbersList = inputView.readManualLottoNumbersList(manualLottoTicketNumber);
-		return lottoMachine.purchaseManualTickets(purchasePrice, manualLottoNumbersList);
+		return inputView.readManualLottoNumbersList(manualLottoTicketNumber);
 	}
 
 	private WinningLottoNumbers readWinningLottoNumbers() {
