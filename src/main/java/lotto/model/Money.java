@@ -31,11 +31,18 @@ public record Money(long amount) {
 		return new Money(Math.multiplyExact(amount, factor));
 	}
 
-	public long divideBy(Money target) {
+	public long calculateQuotientDivideBy(Money target) {
 		if (target.amount == 0) {
 			throw new IllegalArgumentException("0원으로 나눌 수 없습니다.");
 		}
 		return amount / target.amount;
+	}
+
+	public double divideBy(Money target) {
+		if (target.amount == 0) {
+			throw new IllegalArgumentException("0원으로 나눌 수 없습니다.");
+		}
+		return ((double) amount) / target.amount();
 	}
 
 	public boolean isLessThan(Money target) {

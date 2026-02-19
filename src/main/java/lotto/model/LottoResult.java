@@ -19,7 +19,7 @@ public class LottoResult {
 		Money sumPrize = ranks.stream()
 				.map(Rank::prize)
 				.reduce(Money.zero(), Money::add);
-		return ((double) sumPrize.amount()) / totalPrice.amount();
+		return sumPrize.divideBy(totalPrice);
 	}
 
 	public int countRank(Rank targetRank) {

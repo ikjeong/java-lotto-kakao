@@ -74,17 +74,32 @@ public class MoneyTest {
 	}
 
 	@Test
+	@DisplayName("금액 몫 나눗셈")
+	void calculateQuotientDivideMoney() {
+		long result = new Money(3_500L).calculateQuotientDivideBy(new Money(1_000L));
+		assertThat(result).isEqualTo(3L);
+	}
+
+	@Test
+	@DisplayName("몫 계산시 0원으로 나눌 때 예외")
+	void calculateQuotientDivideMoneyByZero() {
+		assertThatIllegalArgumentException().isThrownBy(() -> {
+			long result = new Money(1_000L).calculateQuotientDivideBy(Money.zero());
+		});
+	}
+
+	@Test
 	@DisplayName("금액 나눗셈")
 	void divideMoney() {
-		long result = new Money(3_500L).divideBy(new Money(1_000L));
-		assertThat(result).isEqualTo(3L);
+		double result = new Money(3_500L).divideBy(new Money(1_000L));
+		assertThat(result).isEqualTo(3.5D);
 	}
 
 	@Test
 	@DisplayName("0원으로 나눌 때 예외")
 	void divideMoneyByZero() {
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-			long result = new Money(1_000L).divideBy(Money.zero());
+			double result = new Money(1_000L).divideBy(Money.zero());
 		});
 	}
 
