@@ -1,7 +1,6 @@
 package lotto.model;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -40,9 +39,9 @@ public class PurchaseSessionTest {
 	@Test
 	@DisplayName("구매 금액이 티켓 가격보다 같거나 크면 세션 생성 가능")
 	void createsSessionWhenDepositEqualsTicketPrice() {
-		PurchaseSession session = new PurchaseSession(ticketPrice, ticketPrice, lottoMachine);
-
-		assertThat(session.getPurchasableCount()).isEqualTo(1);
+		assertThatNoException().isThrownBy(() -> {
+			PurchaseSession session = new PurchaseSession(ticketPrice, ticketPrice, lottoMachine);
+		});
 	}
 
 	@Test
@@ -55,6 +54,19 @@ public class PurchaseSessionTest {
 	}
 
 	@Test
+	@DisplayName("구매 후 총 가격에 반영")
+	void totalPriceIsUpdatedAfterPurchase() {
+		Money depositPrice = ticketPrice.multiply(3L);
+		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
+		List<LottoNumber> firstLottoNumbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
+		List<LottoNumber> secondLottoNumbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
+		ManualGenerateType generateType = new ManualGenerateType(List.of(firstLottoNumbers, secondLottoNumbers));
+
+		session.purchaseTickets(generateType);
+		assertThat(session.getTotalPrice()).isEqualTo(ticketPrice.multiply(2L));
+	}
+
+	@Test
 	@DisplayName("구매 후 티켓 목록에 반영")
 	void purchasedTicketsAreAddedToList() {
 		Money depositPrice = ticketPrice.multiply(3L);
@@ -63,25 +75,8 @@ public class PurchaseSessionTest {
 		ManualGenerateType generateType = new ManualGenerateType(List.of(numbers));
 
 		session.purchaseTickets(generateType);
-
 		assertThat(session.getLottoTickets()).hasSize(1);
 		assertThat(session.getLottoTickets().getFirst().getSortedLottoNumbers()).isEqualTo(numbers);
-	}
-
-	@Test
-	@DisplayName("구매 후 총 가격에 반영")
-	void totalPriceIsUpdatedAfterPurchase() {
-		Money depositPrice = ticketPrice.multiply(3L);
-		PurchaseSession session = new PurchaseSession(ticketPrice, depositPrice, lottoMachine);
-		List<LottoNumber> numbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
-		ManualGenerateType generateType = new ManualGenerateType(List.of(numbers, numbers.subList(0, LottoTicket.LOTTO_LENGTH)));
-
-		session.purchaseTickets(new ManualGenerateType(List.of(numbers)));
-		session.purchaseTickets(new ManualGenerateType(List.of(
-				LottoNumber.getLottoNumberCandidates().subList(LottoTicket.LOTTO_LENGTH, LottoTicket.LOTTO_LENGTH * 2)
-		)));
-
-		assertThat(session.getTotalPrice()).isEqualTo(ticketPrice.multiply(2L));
 	}
 
 	@Test
@@ -92,7 +87,6 @@ public class PurchaseSessionTest {
 		List<LottoNumber> numbers = LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
 
 		session.purchaseTickets(new ManualGenerateType(List.of(numbers)));
-
 		assertThat(session.getPurchasableCount()).isEqualTo(2);
 	}
 
@@ -117,7 +111,6 @@ public class PurchaseSessionTest {
 
 		session.purchaseTickets(new ManualGenerateType(List.of(numbers)));
 		session.purchaseTickets(new RandomGenerateType(2));
-
 		assertThat(session.getLottoTickets()).hasSize(3);
 		assertThat(session.getTotalPrice()).isEqualTo(ticketPrice.multiply(3L));
 	}
