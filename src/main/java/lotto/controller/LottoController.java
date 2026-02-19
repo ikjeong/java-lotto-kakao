@@ -1,6 +1,5 @@
 package lotto.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lotto.model.*;
@@ -45,7 +44,7 @@ public class LottoController {
 		outputView.printLottoTickets(manualPurchasedTickets.lottoTickets());
 		outputView.printLottoTickets(autoPurchasedTickets.lottoTickets());
 
-		return mergePurchasedTickets(List.of(manualPurchasedTickets, autoPurchasedTickets));
+		return PurchasedTickets.mergePurchasedTicketsList(List.of(manualPurchasedTickets, autoPurchasedTickets));
 	}
 
 	private PurchasedTickets purchaseManualTicket() {
@@ -55,18 +54,7 @@ public class LottoController {
 		List<PurchasedTickets> purchasedManualTicketsList = manualLottoNumbersList.stream()
 				.map(lottoMachine::purchaseManualTicket)
 				.toList();
-		return mergePurchasedTickets(purchasedManualTicketsList);
-	}
-
-	private PurchasedTickets mergePurchasedTickets(List<PurchasedTickets> purchasedTicketsList) {
-		Money totalPrice = purchasedTicketsList.stream()
-				.map(PurchasedTickets::totalPrice)
-				.reduce(Money.zero(), Money::add);
-
-		List<LottoTicket> lottoTickets = new ArrayList<>();
-		purchasedTicketsList.stream().map(PurchasedTickets::lottoTickets)
-				.forEach(lottoTickets::addAll);
-		return new PurchasedTickets(totalPrice, lottoTickets);
+		return PurchasedTickets.mergePurchasedTicketsList(purchasedManualTicketsList);
 	}
 
 	private WinningLottoNumbers readWinningLottoNumbers() {
