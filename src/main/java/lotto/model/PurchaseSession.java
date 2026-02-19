@@ -9,7 +9,8 @@ public class PurchaseSession {
 
 	private final Money ticketPrice;
 	private final LottoMachine lottoMachine;
-	private Money depositPrice;
+	private final Money depositPrice;
+
 	private Money totalPrice;
 	private List<LottoTicket> lottoTickets;
 
