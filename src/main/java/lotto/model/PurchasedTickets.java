@@ -8,6 +8,11 @@ public record PurchasedTickets(
 		List<LottoTicket> lottoTickets
 ) {
 
+	public PurchasedTickets(Money totalPrice, List<LottoTicket> lottoTickets) {
+		this.totalPrice = totalPrice;
+		this.lottoTickets = List.copyOf(lottoTickets);
+	}
+
 	public static PurchasedTickets mergePurchasedTicketsList(List<PurchasedTickets> purchasedTicketsList) {
 		Money totalPrice = purchasedTicketsList.stream()
 				.map(PurchasedTickets::totalPrice)
