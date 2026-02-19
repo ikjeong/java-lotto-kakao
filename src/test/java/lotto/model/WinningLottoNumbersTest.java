@@ -16,15 +16,26 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class WinningLottoNumbersTest {
 
-	private List<Integer> winningIntegerNormalLottoNumbers;
+	List<LottoNumber> lottoNumberCandidates;
 	List<LottoNumber> winningNormalLottoNumbers;
 	LottoNumber winningBonusLottoNumber;
 
 	@BeforeEach
 	void setup() {
-		winningIntegerNormalLottoNumbers = IntStream.rangeClosed(LottoNumber.MINIMUM, LottoTicket.LOTTO_LENGTH).boxed().toList();
-		winningNormalLottoNumbers = winningIntegerNormalLottoNumbers.stream().map(LottoNumber::of).toList();
-		winningBonusLottoNumber = LottoNumber.of(LottoTicket.LOTTO_LENGTH + 1);
+		lottoNumberCandidates = LottoNumber.getLottoNumberCandidates();
+		winningNormalLottoNumbers = pickFirstNumbers(LottoTicket.LOTTO_LENGTH);
+		winningBonusLottoNumber = pickAnyNumberNotIn(winningNormalLottoNumbers);
+	}
+
+	List<LottoNumber> pickFirstNumbers(int count) {
+		return new ArrayList<>(lottoNumberCandidates.subList(0, count));
+	}
+
+	LottoNumber pickAnyNumberNotIn(List<LottoNumber> targetNumbers) {
+		return lottoNumberCandidates.stream()
+				.filter(candidate -> !targetNumbers.contains(candidate))
+				.findFirst()
+				.orElseThrow();
 	}
 
 	@ParameterizedTest(name = "[{index}] 일반 {0}개, 보너스 {1}")
@@ -47,24 +58,26 @@ public class WinningLottoNumbersTest {
 	}
 
 	LottoTicket makeCustomLottoTicket(int matchCount, boolean bonusMatch) {
-		List<Integer> missPool = IntStream.rangeClosed(winningBonusLottoNumber.getNumber() + 1, LottoNumber.MAXIMUM).boxed().toList();
-		List<Integer> picked = new ArrayList<>(winningIntegerNormalLottoNumbers.subList(0, matchCount));
+		List<LottoNumber> missPool = lottoNumberCandidates.stream()
+				.filter(number -> !winningNormalLottoNumbers.contains(number))
+				.filter(number -> !number.equals(winningBonusLottoNumber))
+				.toList();
+		List<LottoNumber> picked = new ArrayList<>(winningNormalLottoNumbers.subList(0, matchCount));
 		if (bonusMatch) {
-			picked.add(winningBonusLottoNumber.getNumber());
+			picked.add(winningBonusLottoNumber);
 		}
 
 		int need = LottoTicket.LOTTO_LENGTH - picked.size();
 		picked.addAll(missPool.subList(0, need));
 
-		return new LottoTicket(picked.stream().map(LottoNumber::of).toList());
+		return new LottoTicket(picked);
 	}
 
 	@Test
 	@DisplayName("일반 번호 개수가 로또 티켓의 번호 개수보다 적으면 예외")
 	void validateNormalLottoNumbersLengthLessThanLottoLength() {
-		List<LottoNumber> lottoNumbers = new ArrayList<>();
-		lottoNumbers.add(LottoNumber.of(LottoNumber.MINIMUM));
-		LottoNumber bonus = LottoNumber.of(LottoNumber.MINIMUM + 1);
+		List<LottoNumber> lottoNumbers = pickFirstNumbers(LottoTicket.LOTTO_LENGTH - 1);
+		LottoNumber bonus = pickAnyNumberNotIn(lottoNumbers);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			WinningLottoNumbers winningLottoNumbers = new WinningLottoNumbers(lottoNumbers, bonus);
@@ -74,11 +87,8 @@ public class WinningLottoNumbersTest {
 	@Test
 	@DisplayName("일반 번호 개수가 로또 티켓의 번호 개수보다 많으면 예외")
 	void validateNormalLottoNumbersLengthMoreThanLottoLength() {
-		List<LottoNumber> lottoNumbers = new ArrayList<>();
-		for (int i = LottoNumber.MINIMUM; i <= LottoNumber.MINIMUM + LottoTicket.LOTTO_LENGTH; i++) {
-			lottoNumbers.add(LottoNumber.of(i));
-		}
-		LottoNumber bonus = LottoNumber.of(LottoNumber.MINIMUM + LottoTicket.LOTTO_LENGTH + 1);
+		List<LottoNumber> lottoNumbers = pickFirstNumbers(LottoTicket.LOTTO_LENGTH + 1);
+		LottoNumber bonus = pickAnyNumberNotIn(lottoNumbers);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			WinningLottoNumbers winningLottoNumbers = new WinningLottoNumbers(lottoNumbers, bonus);
@@ -88,12 +98,9 @@ public class WinningLottoNumbersTest {
 	@Test
 	@DisplayName("일반 번호 중복시 예외")
 	void validateDuplicateNormalLottoNumbers() {
-		List<LottoNumber> lottoNumbers = new ArrayList<>();
-		for (int i = LottoNumber.MINIMUM; i < LottoNumber.MINIMUM + LottoTicket.LOTTO_LENGTH - 1; i++) {
-			lottoNumbers.add(LottoNumber.of(i));
-		}
-		lottoNumbers.add(LottoNumber.of(LottoNumber.MINIMUM));
-		LottoNumber bonus = LottoNumber.of(LottoNumber.MINIMUM + LottoTicket.LOTTO_LENGTH - 1);
+		List<LottoNumber> lottoNumbers = pickFirstNumbers(LottoTicket.LOTTO_LENGTH - 1);
+		lottoNumbers.add(lottoNumbers.getFirst());
+		LottoNumber bonus = pickAnyNumberNotIn(lottoNumbers);
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			WinningLottoNumbers duplicateNormalLottoNumbers = new WinningLottoNumbers(lottoNumbers, bonus);
@@ -103,7 +110,7 @@ public class WinningLottoNumbersTest {
 	@Test
 	@DisplayName("일반 번호와 보너스 번호 중복시 예외")
 	void validateBonusInNormalLottoNumbers() {
-		LottoNumber bonus = LottoNumber.of(LottoNumber.MINIMUM);
+		LottoNumber bonus = winningNormalLottoNumbers.getFirst();
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			WinningLottoNumbers bonusInNormalLottoNumbers = new WinningLottoNumbers(winningNormalLottoNumbers, bonus);
 		});

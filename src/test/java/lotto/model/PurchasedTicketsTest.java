@@ -2,7 +2,6 @@ package lotto.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +12,8 @@ class PurchasedTicketsTest {
 	@Test
 	@DisplayName("PurchasedTickets merge 검증")
 	void validateMergePurchasedTicketsList() {
-		PurchasedTickets firstPurchasedTickets = generatePurchasedTickets(1_000L, 1);
-		PurchasedTickets secondPurchasedTickets = generatePurchasedTickets(1_000L, 7);
+		PurchasedTickets firstPurchasedTickets = generatePurchasedTickets(1_000L, 0);
+		PurchasedTickets secondPurchasedTickets = generatePurchasedTickets(1_000L, 1);
 
 		PurchasedTickets mergedPurchasedTickets = PurchasedTickets.mergePurchasedTicketsList(List.of(firstPurchasedTickets, secondPurchasedTickets));
 		Money totalPrice = mergedPurchasedTickets.totalPrice();
@@ -28,12 +27,10 @@ class PurchasedTicketsTest {
 		assertThat(lottoTickets.size()).isEqualTo(2);
 	}
 
-	PurchasedTickets generatePurchasedTickets(long amount, int startLottoNumber) {
+	PurchasedTickets generatePurchasedTickets(long amount, int startIndex) {
 		Money money = new Money(amount);
-		List<LottoNumber> lottoNumbers = new ArrayList<>();
-		for (int i = startLottoNumber; i < startLottoNumber + LottoTicket.LOTTO_LENGTH; i++) {
-			lottoNumbers.add(LottoNumber.of(i));
-		}
+		List<LottoNumber> lottoNumbers = LottoNumber.getLottoNumberCandidates()
+				.subList(startIndex, startIndex + LottoTicket.LOTTO_LENGTH);
 		List<LottoTicket> lottoTickets = List.of(new LottoTicket(lottoNumbers));
 		return new PurchasedTickets(money, lottoTickets);
 	}

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class LottoTicketRandomGenerator {
@@ -21,10 +20,7 @@ public class LottoTicketRandomGenerator {
 	}
 
 	public LottoTicket generate() {
-		List<LottoNumber> allNumbers = new ArrayList<>(IntStream.rangeClosed(LottoNumber.MINIMUM, LottoNumber.MAXIMUM)
-				.boxed()
-				.map(LottoNumber::of)
-				.toList());
+		List<LottoNumber> allNumbers = new ArrayList<>(LottoNumber.getLottoNumberCandidates());
 		Collections.shuffle(allNumbers, random);
 		List<LottoNumber> numbers = allNumbers.subList(0, LottoTicket.LOTTO_LENGTH);
 		return new LottoTicket(numbers);

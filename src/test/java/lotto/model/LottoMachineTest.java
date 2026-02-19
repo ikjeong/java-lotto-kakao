@@ -3,7 +3,6 @@ package lotto.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,10 +44,7 @@ public class LottoMachineTest {
 	@DisplayName("수동 티켓 구매 검증 확인")
 	void validatePurchaseManualTicket() {
 		Money purchasePrice = ticketPrice;
-		List<LottoNumber> targetLottoNumbers = new ArrayList<>();
-		for (int i = 1; i <= LottoTicket.LOTTO_LENGTH; i++) {
-			targetLottoNumbers.add(LottoNumber.of(i));
-		}
+		List<LottoNumber> targetLottoNumbers = pickFirstLottoNumbers();
 
 		PurchasedTickets purchasedTickets = lottoMachine.purchaseManualTickets(purchasePrice, List.of(targetLottoNumbers));
 		assertThat(purchasedTickets.totalPrice()).isEqualTo(ticketPrice);
@@ -64,13 +60,14 @@ public class LottoMachineTest {
 	@DisplayName("잔액 부족한 경우 수동 티켓 구매 예외 발생")
 	void validatePurchaseManualTicketWithInsufficientBalance() {
 		Money purchasePrice = ticketPrice.subtract(new Money(1L));
-		List<LottoNumber> targetLottoNumbers = new ArrayList<>();
-		for (int i = 1; i <= LottoTicket.LOTTO_LENGTH; i++) {
-			targetLottoNumbers.add(LottoNumber.of(i));
-		}
+		List<LottoNumber> targetLottoNumbers = pickFirstLottoNumbers();
 
 		assertThatIllegalArgumentException().isThrownBy(() -> {
 			PurchasedTickets purchasedTickets = lottoMachine.purchaseManualTickets(purchasePrice, List.of(targetLottoNumbers));
 		});
+	}
+
+	private List<LottoNumber> pickFirstLottoNumbers() {
+		return LottoNumber.getLottoNumberCandidates().subList(0, LottoTicket.LOTTO_LENGTH);
 	}
 }

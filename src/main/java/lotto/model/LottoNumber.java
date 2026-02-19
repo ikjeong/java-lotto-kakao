@@ -1,5 +1,7 @@
 package lotto.model;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -7,8 +9,8 @@ import java.util.stream.IntStream;
 
 public class LottoNumber {
 
-	public static final int MINIMUM = 1;
-	public static final int MAXIMUM = 45;
+	private static final int MINIMUM = 1;
+	private static final int MAXIMUM = 45;
 
 	private final int number;
 
@@ -27,6 +29,12 @@ public class LottoNumber {
 	public static LottoNumber of(int number) {
 		validateNumberRange(number);
 		return lottoNumberPool.get(number);
+	}
+
+	public static List<LottoNumber> getLottoNumberCandidates() {
+		return lottoNumberPool.values().stream()
+				.sorted(Comparator.comparingInt(LottoNumber::getNumber))
+				.toList();
 	}
 
 	public int getNumber() {
